@@ -1,7 +1,7 @@
 #include "NFA.h"
 using namespace std;
 
-
+ff
 int main() {
     DFA dfa("input-tfa1.json");
     DFA dfa2("dfatest.json");
