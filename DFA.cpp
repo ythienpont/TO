@@ -11,7 +11,7 @@ DFA::DFA(const string &fn) {//fn = filename
     input >> j;
     type = j["type"];
     vector<string> temp = j["alphabet"];
-    alphabet = temp; // voor een of andere reden, geeft het een foutmelding als ik dit direct initialiseer
+    alphabet = temp;
 
     for (auto i : j["states"]) {
         Node *knoop = new Node();
@@ -85,6 +85,12 @@ vector<string> DFA::getStates() const {
     sort(key.begin(), key.end());
     return key;
 }
+void pr(vector<string> aa){
+    for(auto a : aa){
+        cout << a << " ";
+    }
+    cout << endl;
+}
 
 vector<vector<bool>> DFA::mainKruisjes() {
     vector<string> key = getStates();
@@ -95,6 +101,7 @@ vector<vector<bool>> DFA::mainKruisjes() {
             finalStates.push_back(x);
         }
     }
+   // cout <<"deel 1 mnkr"<<endl;
 
     vector<vector<bool>> main;
     queue<pair<int, int>> kruisjes;
@@ -106,7 +113,7 @@ vector<vector<bool>> DFA::mainKruisjes() {
         }
         main.push_back(rij);
     }
-
+    //cout <<"deel2mankr"<<endl;
     for (int i = 1; i < key.size(); i++) { // final state kruisjes
         vector<bool> temp;
         for (int m = 0; m < i; m++) {
@@ -117,8 +124,8 @@ vector<vector<bool>> DFA::mainKruisjes() {
             }
         }
     }
-    cout << 7;
-
+    //cout<<"bijna eind main kr"<<endl;
+    //pr(key);
     //andere kruisjes
     while (!kruisjes.empty()) {
         string s1 = key[kruisjes.front().first];
@@ -133,6 +140,10 @@ vector<vector<bool>> DFA::mainKruisjes() {
                             int i1 = find(key.begin(), key.end(), st1.second->naam) - key.begin();
                             int i2 = find(key.begin(), key.end(), st2.second->naam) - key.begin();
 
+                            //cout << "voor main"<<endl;
+                            //cout <<i1<<" en "<<st1.second->naam <<endl<< main.size() << " en kolomsize: "<<main[i1].size()<<endl;
+                            if(!main[i1][i2]){}
+                            //cout << "na main"<<endl;
                             if (!main[i1][i2]) {// nieuw kruisje, toegevoegd
                                 kruisjes.push(make_pair(i1, i2));
                             }
@@ -144,7 +155,7 @@ vector<vector<bool>> DFA::mainKruisjes() {
             }
         }
     }
-    cout << 8;
+    //cout<<"eindmainkr"<<endl;
     return main;
 }
 
@@ -202,7 +213,6 @@ DFA DFA::minimize() {
             }
         }
     }
-
     vector<vector<string>> states; // als A en C , B en C id zijn. Dan moeten A B en C samen een nieuwe staat worden
 
     for (const auto &a: idStates) {
@@ -317,9 +327,11 @@ DFA DFA::minimize() {
 }
 
 void DFA::printTable() {
-    vector<string> key = getStates();
-    vector<vector<bool>> main = mainKruisjes();
 
+    vector<string> key = getStates();
+
+    vector<vector<bool>> main = mainKruisjes();
+    //cout <<"prtb mknr gelukt";
     for (int i = 1; i < key.size(); i++) { // uitvoer
         cout << key[i] << "\t";
         for (int m = 0; m < i; m++) {
@@ -332,6 +344,7 @@ void DFA::printTable() {
         }
         cout << endl;
     }
+
     for (int i = 0; i < key.size() - 1; i++) {
         cout << "\t" << key[i];
     }
@@ -341,8 +354,11 @@ void DFA::printTable() {
 bool DFA::operator==(DFA dfa2) {
     for (const auto& s : centralUnit) { // staten achteraan toevoegen
         dfa2.centralUnit[s.first] = s.second;
+
     }
+
     dfa2.printTable();
+    //cout << "==gelukt"<<endl;
 
     vector<vector<bool>> main = dfa2.mainKruisjes();
     vector<string> key = dfa2.getStates();
