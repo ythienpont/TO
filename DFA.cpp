@@ -250,9 +250,9 @@ DFA DFA::minimize() {
     DFA mDFA;
     mDFA.alphabet = alphabet;
 
-    vector<tuple<Node *, string, string>> tempVec; // hierin slaan we transities in naar nodes die nog niet zijn aangemaakt
+    vector<tuple<Node*, string, string>> tempVec; // hierin slaan we transities op naar nodes die nog niet zijn aangemaakt
 
-    map<string, Node *> newStates;
+    map<string, Node *> newStates; // met {A,B,C}  heb je in newstates: {(A,{A,B,C}), (B,{A,B,C}),(C, {A,B,C})}
     for (vector<string> &s : states) { // de nieuwe knopen initialiseren
         string staatnaam = benaam(s);
         Node *kn = new Node();
