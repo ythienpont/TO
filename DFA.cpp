@@ -280,18 +280,20 @@ DFA DFA::minimize() {
                 }
             }
         }
+        //mDFA.centralUnit[s] = kn; // bv s=ABC
         mDFA.centralUnit[staatnaam] = kn;
     }
 
-
     for (auto st : centralUnit) { // andere knopen initialiseren
         if (newStates[st.first]) {
-            continue; // deze knoop is al aangemaakt
+            continue; // deze staat is al aangemaakt als samengestelde staat
         }
 
         Node *newNode = new Node();
         newNode->final = st.second->final;
         newNode->naam = benaam(st.second->naam);
+        //newNode->naam = st.second->naam;
+
         mDFA.centralUnit[st.second->naam] = newNode;
 
         for (const auto &a : alphabet) {
