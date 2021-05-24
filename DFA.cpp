@@ -213,8 +213,10 @@ DFA DFA::minimize() {
             }
         }
     }
-    vector<vector<string>> states; // als A en C , B en C id zijn. Dan moeten A B en C samen een nieuwe staat worden
 
+    vector<vector<string>> states;
+    // als A en C , B en C id zijn. Dan moeten A B en C samen een nieuwe staat worden
+    // bv : {(A,B),(B,C)} wordt {(A,B,C)}
     for (const auto &a: idStates) {
         bool vlag = false;
         for (auto &id: states) {
