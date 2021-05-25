@@ -12,7 +12,7 @@
         {
             "name": "1",
             "starting": false,
-            "accepting": false
+            "accepting": true
         },
         {
             "name": "2",

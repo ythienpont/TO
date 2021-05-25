@@ -19,6 +19,8 @@ public:
     void printTable();
 
     bool operator==(DFA dfa2);
+
+    std::string autocorrect1(const std::string &theString);
 };
 
 #endif //DFA_H

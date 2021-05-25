@@ -276,7 +276,6 @@ DFA DFA::minimize() {
         }
     }
 
-
     std::vector<std::string> checkedStates;
     std::vector<std::string> theNewStates;
 
@@ -370,4 +369,11 @@ bool DFA::operator==(DFA dfa2) {
     std::pair<std::string,std::string> startPair = std::make_pair(getStartState()->getName(),dfa2.getStartState()->getName());
     auto theCheckedPairs = new std::vector<std::pair<std::string,std::string>>;
     return isEquivalent(startPair,getStates(),dfa2.getStates(),getAlphabet(),theCheckedPairs);
+}
+
+string DFA::autocorrect1(const std::string &theString) {
+    if(this->accepts(theString)){
+        return theString;
+    }
+
 }

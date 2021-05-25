@@ -12,6 +12,6 @@ int main() {
    cout << boolalpha << (mindfa == dfa2) << endl;    // zijn ze equivalent? Zou hier zeker moeten. Dit wordt getest in de volgende vraag, maar hiermee kan je al eens proberen
 
    NFA nfa("nfaFile1.json");
-   //cout << "nfa accepts: " << nfa.accepts("cccc");
+   cout << "nfa accepts: " << nfa.accepts("c");
    return 0;
 }
