@@ -12,6 +12,8 @@ public:
 
     bool accepts(const std::string &theString) override;
 
+    State* pad(std::string theString);
+
     // Minimize DFA volgens het Table Filling Algortime
     DFA minimize();
 

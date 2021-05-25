@@ -154,6 +154,15 @@ std::vector<std::string> State::nextStates(const char input) {
     return {};
 }
 
+bool State::isDead() const{
+    for(auto t: transitions){
+        if (t.second[0] != name){
+            return false;
+        }
+    }
+    return true;
+}
+
 Automaton::Automaton(const std::string &fin) {
     if (fin == "") { // Soms willen we gewoon een lege automaat
         type="DFA";

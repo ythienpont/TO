@@ -40,6 +40,8 @@ public:
 
     // Return the next states at given input
     std::vector<std::string> nextStates(const char input);
+
+    bool isDead() const;
 };
 
 class Automaton {

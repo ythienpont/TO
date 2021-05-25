@@ -16,11 +16,13 @@ std::map<std::string, State*> productEvaluation(State* currState, std::map<std::
 }
 
 bool DFA::accepts(const std::string &theString) {
-    State* currentState = getStartState();
-    if(theString.empty() and currentState->isAccepting()){
-        return true;
+    State *currentState = getStartState();
+
+    if (theString.empty()) {
+        if (currentState->isAccepting()) {
+            return true;
+        } else return false;
     }
-    else return false;
 
     for (auto c:theString) {
     currentState = getState(currentState->nextStates(c)[0]);
@@ -375,14 +377,46 @@ bool DFA::operator==(DFA dfa2) {
     return isEquivalent(startPair,getStates(),dfa2.getStates(),getAlphabet(),theCheckedPairs);
 }
 
+
+std::string findWord(std::string theString){
+
+}
+
 std::string DFA::autocorrect1(std::string theString) {
     DFA curDFA = this->minimize();
     if(curDFA.accepts(theString)){
         return theString;
     }
-    theString = theString.substr(theString.length()-1);
-    if(curDFA.accepts(theString)){
-        return theString;
+    std::vector<char> alphabet = getAlphabet();
+
+    while(!theString.empty()) {
+        theString = theString.substr(theString.length() - 1);
+        if (curDFA.accepts(theString)) {
+            return theString;
+        }
+        else{
+            if(!curDFA.pad(theString)->isDead()){
+                return findWord(theString);
+            }
+        }
     }
-    return "ee";
+
+    return "";
+}
+
+State* DFA::pad(std::string theString) {
+    State *currentState = getStartState();
+
+    if (theString.empty()) {
+        return currentState;
+    }
+
+    for (auto c:theString) {
+        currentState = getState(currentState->nextStates(c)[0]);
+        if (currentState == nullptr) {
+            std::cerr << "No starting state" << std::endl;
+        }
+    }
+
+    return currentState;
 }
