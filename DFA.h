@@ -20,7 +20,7 @@ public:
 
     bool operator==(DFA dfa2);
 
-    std::string autocorrect1(const std::string &theString);
+    std::string autocorrect1(std::string theString);
 };
 
 #endif //DFA_H

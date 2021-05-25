@@ -17,9 +17,13 @@ std::map<std::string, State*> productEvaluation(State* currState, std::map<std::
 
 bool DFA::accepts(const std::string &theString) {
     State* currentState = getStartState();
-    for (auto c:theString) {
-        currentState = getState(currentState->nextStates(c)[0]);
+    if(theString.empty() and currentState->isAccepting()){
+        return true;
+    }
+    else return false;
 
+    for (auto c:theString) {
+    currentState = getState(currentState->nextStates(c)[0]);
         if (currentState == nullptr) {
             std::cerr << "No starting state" << std::endl;
             return false;
@@ -371,9 +375,14 @@ bool DFA::operator==(DFA dfa2) {
     return isEquivalent(startPair,getStates(),dfa2.getStates(),getAlphabet(),theCheckedPairs);
 }
 
-string DFA::autocorrect1(const std::string &theString) {
-    if(this->accepts(theString)){
+std::string DFA::autocorrect1(std::string theString) {
+    DFA curDFA = this->minimize();
+    if(curDFA.accepts(theString)){
         return theString;
     }
-
+    theString = theString.substr(theString.length()-1);
+    if(curDFA.accepts(theString)){
+        return theString;
+    }
+    return "ee";
 }
