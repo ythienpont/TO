@@ -19,7 +19,7 @@ set(engine_sources
     ENFA.cpp
     json.hpp
     NFA.cpp
-    main.cpp)
+    main.cpp RE.h RE.cpp)
 
 ############################################################
 # Create an executable
