@@ -1,4 +1,5 @@
 #include "NFA.h"
+using namespace std;
 
 DFA NFA::toDFA() {
 
@@ -39,4 +40,11 @@ DFA NFA::toDFA() {
     newDFA.setStates(lazyEvaluation(newDFA.getStartState(),oldDFAStates,{},theAlphabet,false));
     
     return newDFA;
+}
+
+bool NFA::accepts(const string&theString){
+    DFA sscDFA = this->toDFA();
+
+    return sscDFA.accepts(theString);
+
 }

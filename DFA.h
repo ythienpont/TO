@@ -18,7 +18,6 @@ public:
     // Print TFA tabel
     void printTable();
 
-    // DEZE FUNCTIE WERKT IK BEGRIJP NIET HOE DIE OVERLOADING MOET
     bool operator==(DFA dfa2);
 };
 

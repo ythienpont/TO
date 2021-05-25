@@ -332,12 +332,13 @@ DFA DFA::minimize() {
 }
 
 void DFA::printTable() {
-    for (int r = 0; r < (int) TFATable.size(); r++) {
-        for (int k = 0; k < (int) TFATable[r].size(); k++) {
-            std::cout << TFATable[r][k] << "\t";
+    for (auto & r : TFATable) {
+        for (auto & k : r) {
+            std::cout << k << "\t";
         }
         std::cout << std::endl;
     }
+
 }
 
 

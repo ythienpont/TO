@@ -7,8 +7,11 @@ int main() {
     DFA dfa2("dfatest.json");
 
     DFA mindfa = dfa2.minimize();
-    dfa.printTable();
- // t volgende geeft een foutmelding
+    //dfa.printTable();
+
    cout << boolalpha << (mindfa == dfa2) << endl;    // zijn ze equivalent? Zou hier zeker moeten. Dit wordt getest in de volgende vraag, maar hiermee kan je al eens proberen
-    return 0;
+
+   NFA nfa("nfaFile1.json");
+   //cout << "nfa accepts: " << nfa.accepts("cccc");
+   return 0;
 }

@@ -24,8 +24,8 @@ class NFA : public Automaton{
 public:
     using Automaton::Automaton;
 
-    // Not implemented
-    bool accepts(const std::string &theString) {return false;}
+    //bool accepts(const std::string &theString) {return false;}
+    bool accepts(const std::string &theString);
 
     // Subset construction algorithm converts NFA to DFA
     virtual DFA toDFA();
