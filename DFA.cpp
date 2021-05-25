@@ -1,4 +1,5 @@
  #include "DFA.h"
+ using namespace std;
 
 std::string productState(std::string state1, std::string state2) {
     return "(" + state1 + "," + state2 + ")";
@@ -378,9 +379,10 @@ bool DFA::operator==(DFA dfa2) {
 }
 
 
-std::string DFA::findWord(std::string theString){
+std::string DFA::findWord(std::string theString){ // string = 'e'
     std::vector<char> alphabet = getAlphabet();
     State* state = pad(theString);
+    //cout << state->getName()<<endl;
 
     for(auto a : alphabet){
         if(getState(state->nextStates(a)[0])->isAccepting()){
@@ -395,21 +397,23 @@ std::string DFA::findWord(std::string theString){
 }
 
 std::string DFA::autocorrect1(std::string theString) {
-    DFA curDFA = this->minimize();
-    if(curDFA.accepts(theString)){
-        return theString;
-    }
+    DFA curDFA = minimize();
     std::vector<char> alphabet = getAlphabet();
 
     while(!theString.empty()) {
-        theString = theString.substr(theString.length() - 1);
         if (curDFA.accepts(theString)) {
             return theString;
         }
         else{
+            theString = theString.substr(0,theString.length() - 1);
+            if (curDFA.accepts(theString)) {
+                return theString;
+            }
+
             if(!curDFA.pad(theString)->isDead()){
                 return curDFA.findWord(theString);
             }
+
         }
     }
 
