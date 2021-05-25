@@ -378,8 +378,20 @@ bool DFA::operator==(DFA dfa2) {
 }
 
 
-std::string findWord(std::string theString){
+std::string DFA::findWord(std::string theString){
+    std::vector<char> alphabet = getAlphabet();
+    State* state = pad(theString);
 
+    for(auto a : alphabet){
+        if(getState(state->nextStates(a)[0])->isAccepting()){
+            return theString + a;
+        }
+    }
+    for(auto a : alphabet){
+        if(!getState(state->nextStates(a)[0])->isDead()){
+            return findWord(theString + a);
+        }
+    }
 }
 
 std::string DFA::autocorrect1(std::string theString) {
@@ -396,7 +408,7 @@ std::string DFA::autocorrect1(std::string theString) {
         }
         else{
             if(!curDFA.pad(theString)->isDead()){
-                return findWord(theString);
+                return curDFA.findWord(theString);
             }
         }
     }

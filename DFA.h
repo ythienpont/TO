@@ -22,6 +22,8 @@ public:
 
     bool operator==(DFA dfa2);
 
+
+    std::string findWord(std:: string theString);
     std::string autocorrect1(std::string theString);
 };
 
