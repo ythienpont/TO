@@ -1,3 +1,7 @@
-/home/benjamin/CLionProjects/TO/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/benjamin/CLionProjects/TO/cmake-build-debug/CMakeFiles/install/strip.dir
+/home/benjamin/CLionProjects/TO/cmake-build-debug/CMakeFiles/install/local.dir
+/home/benjamin/CLionProjects/TO/cmake-build-debug/CMakeFiles/install.dir
+/home/benjamin/CLionProjects/TO/cmake-build-debug/CMakeFiles/Autocorrect.dir
+/home/benjamin/CLionProjects/TO/cmake-build-debug/CMakeFiles/list_install_components.dir
 /home/benjamin/CLionProjects/TO/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/benjamin/CLionProjects/TO/cmake-build-debug/CMakeFiles/TA1_13_02.dir
+/home/benjamin/CLionProjects/TO/cmake-build-debug/CMakeFiles/rebuild_cache.dir

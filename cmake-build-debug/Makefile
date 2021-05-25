@@ -75,16 +75,51 @@ CMAKE_BINARY_DIR = /home/benjamin/CLionProjects/TO/cmake-build-debug
 #=============================================================================
 # Targets provided globally by CMake.
 
-# Special rule for the target rebuild_cache
-rebuild_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/snap/clion/151/bin/cmake/linux/bin/cmake --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
-.PHONY : rebuild_cache
+# Special rule for the target install/strip
+install/strip: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
+	/snap/clion/151/bin/cmake/linux/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip
 
-# Special rule for the target rebuild_cache
-rebuild_cache/fast: rebuild_cache
+# Special rule for the target install/strip
+install/strip/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
+	/snap/clion/151/bin/cmake/linux/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip/fast
 
-.PHONY : rebuild_cache/fast
+# Special rule for the target install/local
+install/local: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/snap/clion/151/bin/cmake/linux/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local
+
+# Special rule for the target install/local
+install/local/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/snap/clion/151/bin/cmake/linux/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local/fast
+
+# Special rule for the target install
+install: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
+	/snap/clion/151/bin/cmake/linux/bin/cmake -P cmake_install.cmake
+.PHONY : install
+
+# Special rule for the target install
+install/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
+	/snap/clion/151/bin/cmake/linux/bin/cmake -P cmake_install.cmake
+.PHONY : install/fast
+
+# Special rule for the target list_install_components
+list_install_components:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
+.PHONY : list_install_components
+
+# Special rule for the target list_install_components
+list_install_components/fast: list_install_components
+
+.PHONY : list_install_components/fast
 
 # Special rule for the target edit_cache
 edit_cache:
@@ -96,6 +131,17 @@ edit_cache:
 edit_cache/fast: edit_cache
 
 .PHONY : edit_cache/fast
+
+# Special rule for the target rebuild_cache
+rebuild_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
+	/snap/clion/151/bin/cmake/linux/bin/cmake --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+.PHONY : rebuild_cache
+
+# Special rule for the target rebuild_cache
+rebuild_cache/fast: rebuild_cache
+
+.PHONY : rebuild_cache/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -130,17 +176,44 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named TA1_13_02
+# Target rules for targets named Autocorrect
 
 # Build rule for target.
-TA1_13_02: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 TA1_13_02
-.PHONY : TA1_13_02
+Autocorrect: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Autocorrect
+.PHONY : Autocorrect
 
 # fast build rule for target.
-TA1_13_02/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/TA1_13_02.dir/build.make CMakeFiles/TA1_13_02.dir/build
-.PHONY : TA1_13_02/fast
+Autocorrect/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Autocorrect.dir/build.make CMakeFiles/Autocorrect.dir/build
+.PHONY : Autocorrect/fast
+
+Automaton.o: Automaton.cpp.o
+
+.PHONY : Automaton.o
+
+# target to build an object file
+Automaton.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Autocorrect.dir/build.make CMakeFiles/Autocorrect.dir/Automaton.cpp.o
+.PHONY : Automaton.cpp.o
+
+Automaton.i: Automaton.cpp.i
+
+.PHONY : Automaton.i
+
+# target to preprocess a source file
+Automaton.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Autocorrect.dir/build.make CMakeFiles/Autocorrect.dir/Automaton.cpp.i
+.PHONY : Automaton.cpp.i
+
+Automaton.s: Automaton.cpp.s
+
+.PHONY : Automaton.s
+
+# target to generate assembly for a file
+Automaton.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Autocorrect.dir/build.make CMakeFiles/Autocorrect.dir/Automaton.cpp.s
+.PHONY : Automaton.cpp.s
 
 DFA.o: DFA.cpp.o
 
@@ -148,7 +221,7 @@ DFA.o: DFA.cpp.o
 
 # target to build an object file
 DFA.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/TA1_13_02.dir/build.make CMakeFiles/TA1_13_02.dir/DFA.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Autocorrect.dir/build.make CMakeFiles/Autocorrect.dir/DFA.cpp.o
 .PHONY : DFA.cpp.o
 
 DFA.i: DFA.cpp.i
@@ -157,7 +230,7 @@ DFA.i: DFA.cpp.i
 
 # target to preprocess a source file
 DFA.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/TA1_13_02.dir/build.make CMakeFiles/TA1_13_02.dir/DFA.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Autocorrect.dir/build.make CMakeFiles/Autocorrect.dir/DFA.cpp.i
 .PHONY : DFA.cpp.i
 
 DFA.s: DFA.cpp.s
@@ -166,8 +239,35 @@ DFA.s: DFA.cpp.s
 
 # target to generate assembly for a file
 DFA.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/TA1_13_02.dir/build.make CMakeFiles/TA1_13_02.dir/DFA.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Autocorrect.dir/build.make CMakeFiles/Autocorrect.dir/DFA.cpp.s
 .PHONY : DFA.cpp.s
+
+ENFA.o: ENFA.cpp.o
+
+.PHONY : ENFA.o
+
+# target to build an object file
+ENFA.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Autocorrect.dir/build.make CMakeFiles/Autocorrect.dir/ENFA.cpp.o
+.PHONY : ENFA.cpp.o
+
+ENFA.i: ENFA.cpp.i
+
+.PHONY : ENFA.i
+
+# target to preprocess a source file
+ENFA.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Autocorrect.dir/build.make CMakeFiles/Autocorrect.dir/ENFA.cpp.i
+.PHONY : ENFA.cpp.i
+
+ENFA.s: ENFA.cpp.s
+
+.PHONY : ENFA.s
+
+# target to generate assembly for a file
+ENFA.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Autocorrect.dir/build.make CMakeFiles/Autocorrect.dir/ENFA.cpp.s
+.PHONY : ENFA.cpp.s
 
 NFA.o: NFA.cpp.o
 
@@ -175,7 +275,7 @@ NFA.o: NFA.cpp.o
 
 # target to build an object file
 NFA.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/TA1_13_02.dir/build.make CMakeFiles/TA1_13_02.dir/NFA.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Autocorrect.dir/build.make CMakeFiles/Autocorrect.dir/NFA.cpp.o
 .PHONY : NFA.cpp.o
 
 NFA.i: NFA.cpp.i
@@ -184,7 +284,7 @@ NFA.i: NFA.cpp.i
 
 # target to preprocess a source file
 NFA.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/TA1_13_02.dir/build.make CMakeFiles/TA1_13_02.dir/NFA.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Autocorrect.dir/build.make CMakeFiles/Autocorrect.dir/NFA.cpp.i
 .PHONY : NFA.cpp.i
 
 NFA.s: NFA.cpp.s
@@ -193,7 +293,7 @@ NFA.s: NFA.cpp.s
 
 # target to generate assembly for a file
 NFA.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/TA1_13_02.dir/build.make CMakeFiles/TA1_13_02.dir/NFA.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Autocorrect.dir/build.make CMakeFiles/Autocorrect.dir/NFA.cpp.s
 .PHONY : NFA.cpp.s
 
 main.o: main.cpp.o
@@ -202,7 +302,7 @@ main.o: main.cpp.o
 
 # target to build an object file
 main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/TA1_13_02.dir/build.make CMakeFiles/TA1_13_02.dir/main.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Autocorrect.dir/build.make CMakeFiles/Autocorrect.dir/main.cpp.o
 .PHONY : main.cpp.o
 
 main.i: main.cpp.i
@@ -211,7 +311,7 @@ main.i: main.cpp.i
 
 # target to preprocess a source file
 main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/TA1_13_02.dir/build.make CMakeFiles/TA1_13_02.dir/main.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Autocorrect.dir/build.make CMakeFiles/Autocorrect.dir/main.cpp.i
 .PHONY : main.cpp.i
 
 main.s: main.cpp.s
@@ -220,7 +320,7 @@ main.s: main.cpp.s
 
 # target to generate assembly for a file
 main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/TA1_13_02.dir/build.make CMakeFiles/TA1_13_02.dir/main.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Autocorrect.dir/build.make CMakeFiles/Autocorrect.dir/main.cpp.s
 .PHONY : main.cpp.s
 
 # Help Target
@@ -230,11 +330,21 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... edit_cache"
+	@echo "... install"
+	@echo "... install/local"
+	@echo "... install/strip"
+	@echo "... list_install_components"
 	@echo "... rebuild_cache"
-	@echo "... TA1_13_02"
+	@echo "... Autocorrect"
+	@echo "... Automaton.o"
+	@echo "... Automaton.i"
+	@echo "... Automaton.s"
 	@echo "... DFA.o"
 	@echo "... DFA.i"
 	@echo "... DFA.s"
+	@echo "... ENFA.o"
+	@echo "... ENFA.i"
+	@echo "... ENFA.s"
 	@echo "... NFA.o"
 	@echo "... NFA.i"
 	@echo "... NFA.s"

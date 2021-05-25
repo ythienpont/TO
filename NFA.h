@@ -1,22 +1,34 @@
-//
-// Created by Alperen on 25/03/2021.
-//
-
-#ifndef TA1_13_02_NFA_H
-#define TA1_13_02_NFA_H
-
-#include <iostream>
+#ifndef NFA_H
+#define NFA_H
+#include "Automaton.h"
 #include "DFA.h"
-using namespace std;
 
-class NFA: public DFA {
-public:
-    bool bepaalFinal(const string& staat);
+std::vector<std::string> getUniqueStates(std::vector<std::string> states);
 
+class NFAState : public State {
+    std::map<char, std::vector<std::string>> transitions;
 public:
-    NFA(const string& s): DFA(s) {type = "NFA";};
-    DFA toDFA();
+    using State::State; //Before C++11: NFAState(const std::string &name) : State(name);
+
+    void addTransition(const char c, const std::string &state);
+    std::map<char, std::vector<std::string>> getTransitions() {return transitions;}
+
+    std::vector<std::string> nextStates(const char input) {
+        std::vector<std::string> theNextStates = transitions[input];
+
+        return theNextStates;
+    }
 };
 
+class NFA : public Automaton{
+public:
+    using Automaton::Automaton;
 
-#endif //TA1_13_02_NFA_H
+    // Not implemented
+    bool accepts(const std::string &theString) {return false;}
+
+    // Subset construction algorithm converts NFA to DFA
+    virtual DFA toDFA();
+};
+
+#endif //DFA_H

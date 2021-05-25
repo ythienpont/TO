@@ -1,48 +1,25 @@
-//
-// Created by Alperen on 13/02/2021.
-//
+#ifndef DFA_H
+#define DFA_H
+#include "Automaton.h"
 
-
-#ifndef TA1_13_02_DFA_H
-#define TA1_13_02_DFA_H
-
-#include <iostream>
-#include <fstream>
-#include "json.hpp"
-#include <iomanip>
-
-using json = nlohmann::json;
-using namespace std;
-
-class Node {
+class DFA : public Automaton{
+    std::vector<std::vector<std::string>> TFATable;
 public:
-    string naam;
-    map<string,vector<Node*>> pointers; //transities, bv 0,Q2
-    bool final;
-};
+    using Automaton::Automaton;
 
-class DFA {
-public:
-    string type;
-    vector<string> alphabet;
-    Node* start;
+    // Constructor door product
+    DFA(DFA dfa1,DFA dfa2, bool intersection);
 
-    map<string,Node*> centralUnit; // string: naam staat    Node*: info over die staat
-    void setTransitions(json j);
+    bool accepts(const std::string &theString) override;
 
-    vector<string> getStates() const; // krijg een lijst met alle staatnamen
-    vector<vector<bool>> mainKruisjes() ; // krijg de tabel met kruisjes
-
-
-    DFA () {type = "DFA";};
-    DFA(const string& fn);
-    bool accepts(const string&) const;
-    void print() const;
-
+    // Minimize DFA volgens het Table Filling Algortime
     DFA minimize();
+
+    // Print TFA tabel
     void printTable();
-    bool operator==(DFA);
+
+    // DEZE FUNCTIE WERKT IK BEGRIJP NIET HOE DIE OVERLOADING MOET
+    bool operator==(DFA dfa2);
 };
 
-
-#endif //TA1_13_02_DFA_H
+#endif //DFA_H

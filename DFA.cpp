@@ -1,378 +1,372 @@
-//
-// Created by Alperen on 13/02/2021.
-//
+ #include "DFA.h"
 
-#include "DFA.h"
-#include <queue>
-
-DFA::DFA(const string &fn) {//fn = filename
-    ifstream input(fn);
-    json j;
-    input >> j;
-    type = j["type"];
-    vector<string> temp = j["alphabet"];
-    alphabet = temp;
-
-    for (auto i : j["states"]) {
-        Node *knoop = new Node();
-        knoop->naam = i["name"];
-        knoop->final = i["accepting"];
-        if (i["starting"])start = knoop;
-        centralUnit[i["name"]] = knoop;
-    }
-    setTransitions(j);
+std::string productState(std::string state1, std::string state2) {
+    return "(" + state1 + "," + state2 + ")";
 }
 
-void DFA::setTransitions(json j) {
-    for (auto k : centralUnit) {
-        for (auto q : j["transitions"]) {
-            if (q["from"] == k.first) {
-                k.second->pointers[q["input"]].push_back(centralUnit[q["to"]]);
+std::map<std::string, State*> productEvaluation(State* currState, std::map<std::string, State*> baseStates,std::map<std::string, State*> newStates, std::vector<char> theAlphabet) {
+    newStates[currState->getName()] = currState;
+
+    for (auto c:theAlphabet) {
+        State* theNextState = baseStates[currState->nextStates(c)[0]];
+        if (newStates.find(theNextState->getName()) == newStates.end()) newStates = productEvaluation(theNextState, baseStates,newStates,theAlphabet);
+    }
+
+    return newStates;
+}
+
+bool DFA::accepts(const std::string &theString) {
+    State* currentState = getStartState();
+    for (auto c:theString) {
+        currentState = getState(currentState->nextStates(c)[0]);
+
+        if (currentState == nullptr) {
+            std::cerr << "No starting state" << std::endl;
+            return false;
+        }
+    }
+
+    if (currentState->isAccepting()) return true;
+    return false;
+}
+
+DFA::DFA(DFA dfa1,DFA dfa2, bool intersection) : Automaton("") {
+    setType("DFA");
+    std::vector<char> theAlphabet = dfa1.getAlphabet();
+    setAlphabet(theAlphabet);
+
+    std::map<std::string, State*> DFA1States = dfa1.getStates();
+    std::map<std::string, State*> DFA2States = dfa2.getStates();
+
+    std::map<std::string, State*> baseStates;
+
+    for (auto const &x:DFA1States) {
+        State* dfa1State = x.second;
+        for (auto const &y:DFA2States) {
+            State* dfa2State = y.second;
+            auto newState = new State(productState(dfa1State->getName(),dfa2State->getName()));
+
+            if (dfa1State->isStarting() and dfa2State->isStarting()) {
+                newState->setStarting(true);
+                setStartState(newState);
             }
-        }
-    }
-}
 
-
-bool DFA::accepts(const string &str) const {
-    Node *hP = start; // hP == huidige Pointer
-    for (auto sym : str) { // sym = symbool
-        hP = hP->pointers[string(1, sym)][0];
-    }
-
-    if (hP->final) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-void DFA::print() const {
-    json j;
-    j["type"] = type;
-    j["alphabet"] = alphabet;
-    int i = 0;
-    int k = 0;
-    for (const auto &state : centralUnit) {
-        j["states"][i]["name"] = state.second->naam;
-
-        if (state.second == start) {
-            j["states"][i]["starting"] = true;
-        } else {
-            j["states"][i]["starting"] = false;
-        }
-
-        j["states"][i]["accepting"] = state.second->final;
-        for (const auto &tr : state.second->pointers) {
-            for (auto h: tr.second) {
-                j["transitions"][k]["from"] = state.second->naam;
-                j["transitions"][k]["to"] = h->naam;
-                j["transitions"][k]["input"] = tr.first;
-
-                k++;
+            if (intersection) {
+                if (dfa1State->isAccepting() and dfa2State->isAccepting()) newState->setAccepting(true);
+            } else {
+                if (dfa1State->isAccepting() or dfa2State->isAccepting()) newState->setAccepting(true);
             }
-        }
-        i++;
-    }
-    cout << setw(4) << j << endl;
-}
 
-vector<string> DFA::getStates() const {
-    vector<string> key;
-    for (const auto& cu : centralUnit) { // lijst met alle staten
-        key.push_back(cu.first);
-    }
-    sort(key.begin(), key.end());
-    return key;
-}
-void pr(vector<string> aa){
-    for(auto a : aa){
-        cout << a << " ";
-    }
-    cout << endl;
-}
+            for (auto c:theAlphabet) {
+                std::string s1 = dfa1State->nextStates(c)[0];
+                std::string s2 = dfa2State->nextStates(c)[0];
 
-vector<vector<bool>> DFA::mainKruisjes() {
-    vector<string> key = getStates();
-
-    vector<int> finalStates; // final states parsen
-    for (int x = 0; x < key.size(); x++) {
-        if (centralUnit[key[x]]->final) {
-            finalStates.push_back(x);
-        }
-    }
-   // cout <<"deel 1 mnkr"<<endl;
-
-    vector<vector<bool>> main;
-    queue<pair<int, int>> kruisjes;
-
-    for (int x = 0; x < key.size(); x++) {
-        vector<bool> rij;
-        for (int y = 0; y < key.size(); y++) {
-            rij.push_back(false);
-        }
-        main.push_back(rij);
-    }
-    //cout <<"deel2mankr"<<endl;
-    for (int i = 1; i < key.size(); i++) { // final state kruisjes
-        vector<bool> temp;
-        for (int m = 0; m < i; m++) {
-            if (find(finalStates.begin(), finalStates.end(), i) == finalStates.end()
-                xor find(finalStates.begin(), finalStates.end(), m) == finalStates.end()) {
-                main[i][m] = true;
-                kruisjes.push(make_pair(i, m));
+                newState->setTransition(c, productState(s1,s2));
             }
+            baseStates[newState->getName()] = newState;
         }
     }
-    //cout<<"bijna eind main kr"<<endl;
-    //pr(key);
-    //andere kruisjes
-    while (!kruisjes.empty()) {
-        string s1 = key[kruisjes.front().first];
-        string s2 = key[kruisjes.front().second];
-        kruisjes.pop();
 
-        for (const auto &a : alphabet) {
-            for (const auto& st1 : centralUnit) {
-                if (st1.second->pointers[a][0]->naam == s1) {
-                    for (const auto& st2 : centralUnit) {
-                        if (st2.second->pointers[a][0]->naam == s2) {
-                            int i1 = find(key.begin(), key.end(), st1.second->naam) - key.begin();
-                            int i2 = find(key.begin(), key.end(), st2.second->naam) - key.begin();
+    setStates(productEvaluation(getStartState(),baseStates,{},theAlphabet));
+}
 
-                            //cout << "voor main"<<endl;
-                            //cout <<i1<<" en "<<st1.second->naam <<endl<< main.size() << " en kolomsize: "<<main[i1].size()<<endl;
-                            if(!main[i1][i2]){}
-                            //cout << "na main"<<endl;
-                            if (!main[i1][i2]) {// nieuw kruisje, toegevoegd
-                                kruisjes.push(make_pair(i1, i2));
-                            }
+bool compareFunction (std::string a, std::string b) {return a<b;}
 
-                            main[i1][i2] = true;
+std::vector<std::string> getAcceptingStates(std::map<std::string,State*> theStates) {
+    std::vector<std::string> v;
+    for (auto x:theStates) {
+        if (x.second->isAccepting()) v.push_back(x.first);
+    }
+
+    return v;
+}
+
+std::pair<int,int> getLocation(std::string state1, std::string state2, std::vector<std::vector<std::string>> TFATable) {
+    std::pair<int,int> location;
+    location.first = -1;
+    location.second = -1;
+    std::pair<int,int> otherLocation;
+    for (int r = 0; r < (int) TFATable.size() - 1; r++) {
+            if (TFATable[r][0] == state1) location.first = r;
+            if (TFATable[r][0] == state2) otherLocation.first = r;
+    }
+
+    for (int k = 1; k < (int) TFATable[TFATable.size()-1].size();k++) {
+            if (TFATable[TFATable.size()-1][k] == state2) location.second = k;
+            if (TFATable[TFATable.size()-1][k] == state1) otherLocation.second = k;
+    }
+    if ((int) TFATable[location.first].size() > location.second and location.first > 0 and location.second > 0) return location;
+
+    return otherLocation;
+}
+
+std::vector<std::vector<std::string>> combineNonDistinguishable(std::vector<std::vector<std::string>> nonDistinguishableStates, std::vector<std::vector<std::string>> combinedNonDis) {
+
+    std::vector<std::string> currVector = nonDistinguishableStates[0];
+    nonDistinguishableStates.erase(nonDistinguishableStates.begin());
+
+    bool somethingChanged = true;
+
+    while (somethingChanged) {
+        somethingChanged = false;
+        std::vector<std::vector<std::string>> v;
+        for (auto x:nonDistinguishableStates) {
+            bool found = false;
+            for (auto item:x) {
+                if (std::find(currVector.begin(),currVector.end(), item) != currVector.end()) {
+                    currVector.insert(currVector.end(),x.begin(),x.end());
+                    found = true;
+                    somethingChanged = true;
+                    continue;
+                }
+            }
+            if (!found) v.push_back(x);
+        }
+
+        nonDistinguishableStates = v;
+    }
+
+return combinedNonDis;
+}
+
+std::map<std::string,State*> getCombinedTransitions(std::map<std::string,State*> baseStates, std::vector<std::string> newStates, std::vector<char> theAlphabet) {
+    std::map<std::string,State*> allStates;
+    for (auto stateName:newStates) {
+        auto newState = new State(stateName);
+        allStates[stateName] = newState;
+
+        for (auto c:theAlphabet) {
+            std::vector<std::string> v;
+            for (auto state:getSeperateStates(stateName)) {
+                v.push_back(baseStates[state]->nextStates(c)[0]);
+                if (baseStates[state]->isAccepting()) newState->setAccepting(true);
+                if (baseStates[state]->isStarting()) {
+                    newState->setStarting(true);
+                }
+            }
+            std::sort(v.begin(),v.end());
+            newState->addTransition(c, getNewStateName(v));
+        }
+    }
+
+    for (auto x:allStates) {
+        for (auto c:theAlphabet) {
+            for (auto string:newStates) {
+                std::vector<std::string> v = getSeperateStates(x.second->nextStates(c)[0]);
+
+                for (auto aNewState:newStates) {
+                    for (auto p:getSeperateStates(aNewState)) {
+                        if (std::find(v.begin(),v.end(), p) != v.end()) {
+                            x.second->setTransition(c,aNewState);
+                            break;
                         }
                     }
                 }
             }
         }
     }
-    //cout<<"eindmainkr"<<endl;
-    return main;
-}
 
-string benaam(vector<string> &vstr) {
-    string str;
-    for (const auto &c: vstr) {
-        str += c;
-    }
-    sort(str.begin(), str.end()); // de string sorteren
-    string staat = "{";
+    for (auto x:baseStates) {
+        bool breakOut = false;
+        for (auto string:newStates) {
+            for (auto cha:getSeperateStates(string)) {
+                if (cha == x.first) breakOut = true;
+            }
+        }
+        if (breakOut) continue;
+        State* theState = x.second;
+        std::string theOldName = theState->getName();
+        theState->setName(getNewStateName({theOldName}));
+        allStates[theState->getName()] = theState;
+        for (auto c:theAlphabet) {
+            std::string nextState = theState->nextStates(c)[0];
+            theState->setTransition(c, nextState);
 
-    for (const auto &c:str) {
-        staat = staat + c + ", ";
-    }
+            for (auto string:newStates) {
+                std::vector<std::string> v = theState->nextStates(c);
 
-    staat = staat.substr(0, staat.size() - 2);
-    staat += "}";
-    return staat;
-}
-
-string benaam(string str) {
-    sort(str.begin(), str.end()); // de string sorteren
-    string staat = "{";
-
-    for (const auto &c:str) {
-        staat = staat + c + ", ";
-    }
-
-    staat = staat.substr(0, staat.size() - 2);
-    staat += "}";
-    return staat;
-}
-
-bool stringInVectoredVector(string str, vector<vector<string>> vec) {
-    for (auto a : vec) {
-        for (auto b : a) {
-            if (b == str) {
-                return true;
+                for (auto aNewState:newStates) {
+                    for (auto p:getSeperateStates(aNewState)) {
+                        if (std::find(v.begin(),v.end(), p) != v.end()) {
+                            theState->setTransition(c,aNewState);
+                            break;
+                        }
+                    }
+                }
             }
         }
     }
-    return false;
+
+    for (auto x:allStates) {
+        for (auto c:theAlphabet) {
+            std::string theTransition = getNewStateName(x.second->nextStates(c));
+            if (theTransition.at(1) != '{') x.second->setTransition(c,theTransition);
+        }
+    }
+
+
+    return allStates;
 }
 
 DFA DFA::minimize() {
-    vector<vector<bool>> main = mainKruisjes();
-    vector<string> key = getStates();
+    DFA newDFA("");
+    newDFA.setAlphabet(getAlphabet());
 
-    vector<pair<string, string>> idStates; // indistinguishable states
+    std::vector<std::string> states;
+    for (const auto& x:getStates()) {
+        states.push_back(x.first);
+    }
 
-    for (int i = 1; i < key.size(); i++) {
-        for (int m = 0; m < i; m++) {
-            if (!main[i][m]) {
-                idStates.push_back({key[i], key[m]});
+    //https://stackoverflow.com/questions/34757448/sorting-a-vector-of-objects-alphabetically-in-c
+    std::sort(states.begin(),states.end(),compareFunction);
+
+    std::vector<std::vector<std::string>> table;
+
+    for (int r = 0; r < (int) states.size(); r++) {
+        std::vector<std::string> v;
+        table.push_back(v);
+
+        if (r == (int) states.size() - 1) {
+            for (int k = 0; k < (int) states.size(); k++) {
+                if (k == 0) table[r].push_back(" ");
+                else table[r].push_back(states[k-1]);
+            }
+        } else {
+            for (int k = 0; k < r+2; k++) {
+                if (k == 0) table[r].push_back(states[r+1]);
+                else table[r].push_back("-");
             }
         }
     }
 
-    vector<vector<string>> states;
-    // als A en C , B en C id zijn. Dan moeten A B en C samen een nieuwe staat worden
-    // bv : {(A,B),(B,C)} wordt {(A,B,C)}
-    for (const auto &a: idStates) {
-        bool vlag = false;
-        for (auto &id: states) {
-            if (find(id.begin(), id.end(), a.first) != id.end()
-                and find(id.begin(), id.end(), a.second) == id.end()) {
-                id.push_back(a.second);
-                vlag = true;
-                break;
-            } else if (find(id.begin(), id.end(), a.first) == id.end()
-                       and find(id.begin(), id.end(), a.second) != id.end()) {
-                id.push_back(a.first);
-                vlag = true;
-                break;
-            }
-            else if(find(id.begin(), id.end(), a.first) != id.end()
-                    and find(id.begin(), id.end(), a.second) != id.end()) {
-                vlag = true;
-                break;
-            }
-        }
-        if (!vlag) { // de staat is nog niet toegevoegd aan de nieuwe opslag
-            vector<string> temp;
-            temp.push_back(a.first);
-            temp.push_back(a.second);
+    std::vector<std::string> acceptingStates = getAcceptingStates(getStates());
 
-            states.push_back(temp);
+    for (int r = 0; r < (int) states.size() - 1; r++) {
+        for (int k = 1; k < (int) table[r].size(); k++) {
+            std::string firstState = table[r][0];
+            std::string secondState = table[table.size()-1][k];
+
+            if (getState(firstState)->isAccepting() != getState(secondState)->isAccepting()) {
+                table[r][k] = "X";
+            }
+
         }
     }
 
-    //nu hebben we vectoren die staten bevatten die ononderscheidbaar zijn
-    DFA mDFA;
-    mDFA.alphabet = alphabet;
-
-    vector<tuple<Node*, string, string>> tempVec; // hierin slaan we transities op naar nodes die nog niet zijn aangemaakt
-
-    map<string, Node *> newStates; // met {A,B,C}  heb je in newstates: {(A,{A,B,C}), (B,{A,B,C}),(C, {A,B,C})}
-    for (vector<string> &s : states) { // de nieuwe knopen initialiseren
-        string staatnaam = benaam(s);
-        Node *kn = new Node();
-        kn->naam = staatnaam;
-        kn->final = false;
-
-        for (const auto &c : s) {
-            if (centralUnit[c]->final) {
-                kn->final = true;
-            }
-            newStates[c] = kn;
-        }
-
-        for (auto a : alphabet) {
-            if (find(s.begin(), s.end(), centralUnit[s[0]]->pointers[a][0]->naam)
-            != s.end()) { // de knoop wijst naar zichzelf
-                kn->pointers[a].push_back(kn);
-            } else {
-                if (stringInVectoredVector(centralUnit[s[0]]->pointers[a][0]->naam,
-                                           states)) { // de knoop wijst naar een andere nieuwe staat
-                    tempVec.push_back(make_tuple(kn, a, centralUnit[s[0]]->pointers[a][0]->naam));
-
-                } else {
-                    tempVec.push_back(make_tuple(kn, a, centralUnit[s[0]]->pointers[a][0]->naam));
-                }
-            }
-        }
-        //mDFA.centralUnit[s] = kn; // bv s=ABC
-        mDFA.centralUnit[staatnaam] = kn;
-    }
-
-    for (auto st : centralUnit) { // andere knopen initialiseren
-        if (newStates[st.first]) {
-            continue; // deze staat is al aangemaakt als samengestelde staat
-        }
-
-        Node *newNode = new Node();
-        newNode->final = st.second->final;
-        newNode->naam = benaam(st.second->naam);
-        //newNode->naam = st.second->naam;
-
-        mDFA.centralUnit[st.second->naam] = newNode;
-
-        for (const auto &a : alphabet) {
-            if (newStates[st.second->pointers[a][0]->naam]) {
-                newNode->pointers[a].push_back(newStates[st.second->pointers[a][0]->naam]);
-            } else {
-                if (mDFA.centralUnit[st.second->pointers[a][0]->naam]) {
-                    newNode->pointers[a].push_back(mDFA.centralUnit[st.second->pointers[a][0]->naam]);
-                } else {// de node waar de huidige node heengaat, is nog niet aangemaakt.
-                    // We regelen deze transitie achteraf.
-                    tempVec.push_back(make_tuple(newNode, a, st.second->pointers[a][0]->naam));
+    bool somethingChanged = true;
+    while (somethingChanged){
+        somethingChanged = false;
+        for (int r = 0; r < (int) table.size() - 1; r++) {
+            for (int k = 1; k < (int) table[r].size(); k++) {
+                if (table[r][k] == "-") {
+                    for (auto c:getAlphabet()) {
+                        State* state1 = getState(table[r][0]);
+                        State* state2 = getState(table[table.size()-1][k]);
+                        std::string nextState1 = state1->nextStates(c)[0];
+                        std::string nextState2 = state2->nextStates(c)[0];
+                        if(nextState1 == nextState2) continue;
+                        std::pair<int,int> location = getLocation(nextState1,nextState2, table);
+                        if (table[location.first][location.second] == "X") {
+                            table[r][k] = "X";
+                            somethingChanged = true;
+                        }
+                    }
                 }
             }
         }
     }
 
-    for (auto f : tempVec) { // regelen van transities naar knopen die nog niet aangemaakt waren
-        if(!mDFA.centralUnit[get<2>(f)]){
-            mDFA.centralUnit.erase(get<2>(f));
-            get<0>(f)->pointers[get<1>(f)].push_back(newStates[get<2>(f)]);
+
+    std::vector<std::string> checkedStates;
+    std::vector<std::string> theNewStates;
+
+        for (int k = 1; k < (int) table[table.size()-1].size(); k++) {
+            std::vector<std::string> v;
+            bool newStateFound = false;
+            for (int r = (int) table.size() - 2; r >= k - 1; r--) {
+                if (table[r][k] == "-") {
+                    std::string state1 = table[r][0];
+                    std::string state2 = table[table.size() - 1][k];
+                    if (find(checkedStates.begin(), checkedStates.end(), state1) == checkedStates.end()) {
+                        v.push_back(state1);
+                        checkedStates.push_back(state1);
+                        newStateFound = true;
+                    }
+                    if (find(checkedStates.begin(), checkedStates.end(), state2) == checkedStates.end()) {
+                        v.push_back(state2);
+                        checkedStates.push_back(state2);
+                        newStateFound = true;
+                    }
+                }
+            }
+            if (newStateFound) {
+                std::sort(v.begin(),v.end());
+                theNewStates.push_back(getNewStateName(v));
+            }
         }
-        else {
-            get<0>(f)->pointers[get<1>(f)].push_back(mDFA.centralUnit[get<2>(f)]);
-        }
+
+    std::map<std::string,State*> theOldStates = getStates();
+    std::map<std::string,State*> theNewStateMap = getStates();
+
+    for (auto x:theOldStates) {
+        auto newStateForTheMap = new State(x.first);
+        newStateForTheMap->setTransitions(x.second->getTransitions());
+        newStateForTheMap->setStarting(x.second->isStarting());
+        newStateForTheMap->setAccepting(x.second->isAccepting());
+
+        theNewStateMap[newStateForTheMap->getName()] = newStateForTheMap;
     }
 
-    //start staat
-    if (newStates[start->naam]) {
-        mDFA.start = newStates[start->naam];
-    } else {
-        mDFA.start = mDFA.centralUnit[start->naam];
+    newDFA.setStates(getCombinedTransitions(theNewStateMap,theNewStates,getAlphabet()));
+
+    theNewStateMap = newDFA.getStates();
+
+    for (auto x:theNewStateMap) {
+        if (x.second->isStarting()) newDFA.setStartState(x.second);
     }
 
-    return mDFA;
+    TFATable = table;
+
+
+    return newDFA;
 }
 
 void DFA::printTable() {
-
-    vector<string> key = getStates();
-
-    vector<vector<bool>> main = mainKruisjes();
-    //cout <<"prtb mknr gelukt";
-    for (int i = 1; i < key.size(); i++) { // uitvoer
-        cout << key[i] << "\t";
-        for (int m = 0; m < i; m++) {
-            if (main[i][m]) {
-                cout << 'X';
-            } else {
-                cout << '-';
-            }
-            cout << "\t";
+    for (int r = 0; r < (int) TFATable.size(); r++) {
+        for (int k = 0; k < (int) TFATable[r].size(); k++) {
+            std::cout << TFATable[r][k] << "\t";
         }
-        cout << endl;
+        std::cout << std::endl;
     }
-
-    for (int i = 0; i < key.size() - 1; i++) {
-        cout << "\t" << key[i];
-    }
-    cout << endl;
 }
 
-bool DFA::operator==(DFA dfa2) {
-    for (const auto& s : centralUnit) { // staten achteraan toevoegen
-        dfa2.centralUnit[s.first] = s.second;
 
-    }
 
-    dfa2.printTable();
-    //cout << "==gelukt"<<endl;
-
-    vector<vector<bool>> main = dfa2.mainKruisjes();
-    vector<string> key = dfa2.getStates();
-
-    int is1 = find(key.begin(), key.end(), dfa2.start->naam) - key.begin(); // index start 2
-    int is2 = find(key.begin(), key.end(), this->start->naam) - key.begin(); // index start 1
-
-    if (main[is1][is2]) { // er staat een kruisje op de start staten intersectie
+bool isEquivalent(std::pair<std::string,std::string> thePair, std::map<std::string,State*> dfa1States, std::map<std::string,State*> dfa2States,std::vector<char> theAlphabet, std::vector<std::pair<std::string,std::string>> *checkedPairs) {
+    if (find(checkedPairs->begin(),checkedPairs->end(),thePair) != checkedPairs->end()) return true;
+    if (dfa1States[thePair.first] == nullptr) {
+        std::cout << thePair.first << std::endl;
         return false;
-    } else {
-        return true;
     }
+    if (dfa2States[thePair.second] == nullptr) {
+        std::cout << thePair.second << std::endl;
+        return false;
+    }
+    if (dfa1States[thePair.first]->isAccepting() != dfa2States[thePair.second]->isAccepting()) return false;
+    checkedPairs->push_back(thePair);
+
+    for (auto c:theAlphabet) {
+        std::pair<std::string,std::string> newPair;
+        newPair.first = dfa1States[thePair.first]->nextStates(c)[0];
+        newPair.second = dfa2States[thePair.second]->nextStates(c)[0];
+
+        if (!isEquivalent(newPair,dfa1States,dfa2States,theAlphabet,checkedPairs)) return false;
+    }
+    checkedPairs->push_back(thePair);
+    return true;
+}
+bool DFA::operator==(DFA dfa2) {
+    std::pair<std::string,std::string> startPair = std::make_pair(getStartState()->getName(),dfa2.getStartState()->getName());
+    auto theCheckedPairs = new std::vector<std::pair<std::string,std::string>>;
+    return isEquivalent(startPair,getStates(),dfa2.getStates(),getAlphabet(),theCheckedPairs);
 }

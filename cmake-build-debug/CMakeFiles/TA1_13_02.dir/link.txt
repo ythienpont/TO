@@ -1,1 +1,0 @@
-/usr/bin/c++ -g CMakeFiles/TA1_13_02.dir/main.cpp.o CMakeFiles/TA1_13_02.dir/DFA.cpp.o CMakeFiles/TA1_13_02.dir/NFA.cpp.o -o TA1_13_02 
