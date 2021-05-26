@@ -242,8 +242,7 @@ State* Automaton::getState(const std::string &name) {
     return nullptr;
 }
 
-
-void Automaton::print() {
+json Automaton::createJson() {
     json j;
     j["type"] = type;
     j["alphabet"] = json::array();
@@ -273,7 +272,7 @@ void Automaton::print() {
 
         if (it->second->isAccepting()) state["accepting"] = true;
         else state["accepting"] = false;
-        
+
         j["states"].push_back(state);
 
         //Transitions
@@ -301,7 +300,21 @@ void Automaton::print() {
                 j["transitions"].push_back(transition);
 
             }
-        }     
+        }
     }
+    return j;
+}
+
+void Automaton::print() {
+    json j = createJson();
+
     std::cout << std::setw(4) << j << std::endl;
+}
+
+void Automaton::exportJson(const std::string& outputname) {
+    json jsonfile = createJson();
+
+    std::ofstream file(outputname);
+    file << std::setw(4) << jsonfile;
+    file.close();
 }

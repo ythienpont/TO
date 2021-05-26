@@ -75,7 +75,9 @@ public:
     char getEpsilon() {return eps;}
 
     virtual bool accepts(const std::string &theString) = 0;
+    json createJson();
     void print();
+    void exportJson(const std::string& outputname); // voert de automaat uit naar een .json bestand
 };
 
 std::map<std::string, State*> lazyEvaluation(State* forEval,std::map<std::string, State*> baseStates, std::map<std::string, State*> newStates, std::vector<char> theAlphabet, bool intersection);

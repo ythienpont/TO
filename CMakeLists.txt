@@ -17,9 +17,10 @@ set(engine_sources
     Automaton.cpp
     DFA.cpp
     ENFA.cpp
+    #RE.cpp
     json.hpp
     NFA.cpp
-    main.cpp RE.h RE.cpp)
+    main.cpp)
 
 ############################################################
 # Create an executable
