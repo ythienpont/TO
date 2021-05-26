@@ -66,13 +66,64 @@ ENFA RE::toENFA() {
 
 ENFA RE::plus(ENFA enfa1, ENFA enfa2) {
     ENFA enfa("");
+    string s(1, states);
+    ++states;
+    string z(1,states);
+    ++states;
+    State* state = new State(s);
+    State* state2 = new State(z);
+    enfa.setType("ENFA");
+    enfa.setEpsilon(epsilon);
+    vector<char> alphabet;
+    alphabet = enfa1.getAlphabet();
+    for(auto it: enfa2.getAlphabet()){
+        if(count(alphabet.begin(), alphabet.end(), it) == 0){
+            alphabet.push_back(it);
+        }
+    }
+    vector<string> transition;
+    transition.push_back(enfa1.getStartState()->getName());
+    enfa1.getStartState()->setStarting(false);
+    transition.push_back(enfa2.getStartState()->getName());
+    enfa2.getStartState()->setStarting(false);
+    state->addTransitions(epsilon, transition);
+    for(auto it:enfa1.getStates()){
+        if(it.second->isAccepting()){
+            it.second->addTransition(epsilon,z);
+            it.second->setAccepting(false);
+        }
+        enfa.setState(it.second->getName(),it.second);
+    }
+    for(auto it:enfa2.getStates()){
+        if(it.second->isAccepting()){
+            it.second->addTransition(epsilon,z);
+            it.second->setAccepting(false);
+        }
+        enfa.setState(it.second->getName(),it.second);
+    }
+    delete state;
+    delete state2;
+    return enfa;
 }
 
 ENFA RE::concatenatie(ENFA enfa1, ENFA enfa2) {
     ENFA enfa("");
+    enfa = enfa1;
+    for(auto& it:enfa.getStates()){
+        if(it.second->isAccepting()){
+            it.second->setAccepting(false);
+            it.second->addTransition(epsilon,enfa2.getStartState()->getName());
+        }
+    }
+    enfa2.getStartState()->setAccepting(false);
+    for(auto it: enfa2.getStates()){
+        enfa.setState(it.second->getName(),it.second);
+    }
+    return enfa;
 }
 ENFA RE::ster(ENFA enfa) {
     ENFA enfa1("");
+    enfa1 = enfa;
     string s(1,states);
     ++states;
     vector<string>eps_transitions;
@@ -80,14 +131,13 @@ ENFA RE::ster(ENFA enfa) {
     state->setStarting(true);
     state->setAccepting(false);
     eps_transitions.push_back(enfa.getStartState()->getName());
-    enfa.getStartState()->setStarting(false);
+    enfa1.getStartState()->setStarting(false);
     string z(1,states);
     ++states;
     State* state2 = new State(z);
-    enfa1.setState(z,state2);
     eps_transitions.push_back(z);
     state->addTransitions(epsilon, eps_transitions);
-    for(auto it:enfa.getStates()){
+    for(auto& it:enfa1.getStates()){
         if(it.second->isAccepting()){
             it.second->setAccepting(false);
             it.second->addTransition(epsilon, z);
@@ -95,4 +145,10 @@ ENFA RE::ster(ENFA enfa) {
     }
     enfa1.setState(enfa.getStartState()->getName(), enfa.getStartState());
     enfa1.setStartState(state);
+    enfa1.setState(s,state);
+    state2->setAccepting(true);
+    enfa1.setState(z,state2);
+    delete state;
+    delete state2;
+    return enfa1;
 }
