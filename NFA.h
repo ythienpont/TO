@@ -11,6 +11,8 @@ public:
     using State::State; //Before C++11: NFAState(const std::string &name) : State(name);
 
     void addTransition(const char c, const std::string &state);
+    void addTransition(const char c, const std::vector<std::string> &states);
+
     std::map<char, std::vector<std::string>> getTransitions() {return transitions;}
 
     std::vector<std::string> nextStates(const char input) {
