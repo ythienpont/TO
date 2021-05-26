@@ -149,6 +149,8 @@ State::State(const std::string &theName) {
     starting = false;
 }
 
+State::~State() {  }
+
 void State::addTransition(const char c, const std::string &state) {
     std::map<char, std::vector<std::string>>::const_iterator it = transitions.find(c);
 
@@ -230,6 +232,19 @@ Automaton::Automaton(const std::string &fin) {
         if (theState != nullptr) theState -> addTransition(theInput, t["to"]);
     }
 
+}
+
+Automaton::~Automaton() {
+    std::map<std::string, State*>::iterator it = states.begin();
+
+    while (it != states.end()) {
+        delete(it->second);
+        it->second = NULL;
+
+        it++;
+   }
+
+   states.clear();
 }
 
 State* Automaton::getState(const std::string &name) {

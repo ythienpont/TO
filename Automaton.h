@@ -20,6 +20,7 @@ class State {
 
 public:
     explicit State(const std::string &theName);
+    virtual ~State();
 
     void setStarting(const bool starts) {starting = starts;}
     void setAccepting(const bool accepts) {accepting = accepts;}
@@ -55,6 +56,7 @@ class Automaton {
     char eps; // Char to represent epsilon, only used with eNFA
 public:
     explicit Automaton(const std::string &fin);
+    ~Automaton();
 
     void setType(const std::string &theType) {type = theType;}
     std::string getType() {return type;}
