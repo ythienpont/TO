@@ -82,7 +82,7 @@ std::map<std::string, State*> lazyEvaluation(State* forEval,std::map<std::string
 
 std::string getNewStateName(std::vector<std::string> transitions);
 
-std::vector<std::string> getSeperateStates(std::string theState);
+std::vector<std::string> getSeperateStates(const std::string &theState);
 
 std::vector<std::string> getUniqueStates(std::vector<std::string> states);
 

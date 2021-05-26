@@ -20,6 +20,7 @@ std::string getNewStateName(std::vector<std::string> transitions) {
     return newStateName;
 }
 
+/*
 std::vector<std::string> getSeperateStates(std::string theState) {
     std::vector<std::string> seperateStates;
 
@@ -27,6 +28,24 @@ std::vector<std::string> getSeperateStates(std::string theState) {
         if (c != '{' and c != '}' and c != ',' and c != ' ' and c != '(' and c != ')') {
             std::string seperateState(1,c);
             seperateStates.push_back(seperateState);
+        }
+    }
+
+    return seperateStates;
+}
+*/
+
+std::vector<std::string> getSeperateStates(const std::string &theState) {
+    std::vector<std::string> seperateStates;
+
+    std::string stateName = "";
+    for (auto c:theState) {
+        if (c == '{' or c == '(') continue;
+        else if (c == ',' or c == '}' or c == ')') {
+            seperateStates.push_back(stateName);
+            stateName = "";
+        } else {
+            stateName += c;
         }
     }
 
