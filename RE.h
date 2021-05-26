@@ -13,5 +13,8 @@ public:
     char epsilon;
     RE(string reg, char eps);
     ENFA toENFA();
+    ENFA ster(ENFA enfa);
+    ENFA concatenatie(ENFA enfa1, ENFA enfa2);
+    ENFA plus(ENFA enfa1, ENFA enfa2);
 };
 #endif //RE_H

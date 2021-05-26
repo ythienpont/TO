@@ -282,6 +282,7 @@ DFA DFA::minimize() {
             }
         }
     }
+
     std::vector<std::string> checkedStates;
     std::vector<std::string> theNewStates;
 
@@ -378,62 +379,42 @@ bool DFA::operator==(DFA dfa2) {
 }
 
 
-vector<string> DFA::findWords(string theString){
+vector<std::string> DFA::findWords(std::string theString){
     std::vector<char> alphabet = getAlphabet();
     State* state = pad(theString);
-    vector<string> words;
-    bool flag = false;
 
     for(auto a : alphabet){
         if(getState(state->nextStates(a)[0])->isAccepting()){
-            words.push_back(theString+a);
-            flag = true;
+            return theString + a;
         }
-    }
-    if(flag){
-        return words;
     }
     for(auto a : alphabet){
         if(!getState(state->nextStates(a)[0])->isDead()){
-            vector<string> newWords = findWords(theString + a);
-            words.insert(words.end(),newWords.begin(), newWords.end());
+            return findWords(theString + a);
         }
     }
-    return words;
 }
 
-vector<string> DFA::autocorrect1(std::string theString) {
-    DFA curDFA = minimize();
-    cout << 88<<endl;
-
+std::string DFA::autocorrect1(std::string theString) {
+    DFA curDFA = this->minimize();
+    if(curDFA.accepts(theString)){
+        return theString;
+    }
     std::vector<char> alphabet = getAlphabet();
-    bool flag = true;
-    bool stop = false;
-    vector<string> correctedWords;
-    while(!theString.empty() or flag) {
-        flag = false;
+
+    while(!theString.empty()) {
+        theString = theString.substr(theString.length() - 1);
         if (curDFA.accepts(theString)) {
-            correctedWords.push_back(theString);
-            return correctedWords;
+            return theString;
         }
         else{
-            theString = theString.substr(0,theString.length() - 1);
-            if (curDFA.accepts(theString)) {
-                correctedWords.push_back(theString);
-                stop = true;
-                //return correctedWords;
-            }
             if(!curDFA.pad(theString)->isDead()){
-                vector<string> words = curDFA.findWords(theString);
-
-                correctedWords.insert(correctedWords.end(),words.begin() ,words.end());
-                return correctedWords;
+                return curDFA.findWords(theString);
             }
-            if(stop) return correctedWords;
         }
     }
 
-    return {""};
+    return "";
 }
 
 State* DFA::pad(std::string theString) {
