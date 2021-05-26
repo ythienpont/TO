@@ -12,7 +12,7 @@ class ENFA : public NFA {
     std::map<char, std::vector<std::string>> transitions;
 public:
     using NFA::NFA;
-
+    virtual ~ENFA();
 
     // Geeft informatie over de eNFA
     void printStats();

@@ -86,5 +86,9 @@ NFA ENFA::toNFA() {
 
     return newNFA;
 }
+DFA ENFA::toDFA() {
+    return toNFA().toDFA();
+}
+ENFA::~ENFA(){
 
-
+}
