@@ -163,7 +163,13 @@ void State::addTransition(const char c, const std::string &state) {
     std::vector<std::string> newEntry = {state};
     transitions[c] = newEntry;
 }
-
+void State::addTransitions(const char c, const std::vector<std::string> &states) {
+    if (transitions.find(c) != transitions.end()) {
+        transitions[c] = states;
+    } else {
+        transitions[c].insert(transitions[c].end(),states.begin(),states.end());
+    }
+}
 // Return the next states at given input
 std::vector<std::string> State::nextStates(const char input) {
     std::map<char, std::vector<std::string>>::const_iterator it = transitions.find(input);

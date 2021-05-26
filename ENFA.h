@@ -2,7 +2,6 @@
 #include "DFA.h"
 
 class ENFAState : public NFAState {
-    std::map<char, std::vector<std::string>> transitions;
 public:
     using NFAState::NFAState; //Before C++11: NFAState(const std::string &name) : State(name);
 

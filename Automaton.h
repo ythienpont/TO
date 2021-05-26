@@ -34,6 +34,7 @@ public:
     // Initieel werken we met een enkele staat, bij een NFA verandert dit
     // Transities worden voorgesteld als maps met een key en een (vector van) state(s)
     virtual void addTransition(const char c, const std::string &state);
+    virtual void addTransitions(const char c, const std::vector<std::string> &states);
     void setTransition(const char c, const std::string &state) {transitions[c] = {state};}
 
     std::map<char, std::vector<std::string>> getTransitions() {return transitions;}

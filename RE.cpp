@@ -74,8 +74,25 @@ ENFA RE::concatenatie(ENFA enfa1, ENFA enfa2) {
 ENFA RE::ster(ENFA enfa) {
     ENFA enfa1("");
     string s(1,states);
+    ++states;
+    vector<string>eps_transitions;
     State* state = new State(s);
     state->setStarting(true);
     state->setAccepting(false);
+    eps_transitions.push_back(enfa.getStartState()->getName());
+    enfa.getStartState()->setStarting(false);
+    string z(1,states);
+    ++states;
+    State* state2 = new State(z);
+    enfa1.setState(z,state2);
+    eps_transitions.push_back(z);
+    state->addTransitions(epsilon, eps_transitions);
+    for(auto it:enfa.getStates()){
+        if(it.second->isAccepting()){
+            it.second->setAccepting(false);
+            it.second->addTransition(epsilon, z);
+        }
+    }
+    enfa1.setState(enfa.getStartState()->getName(), enfa.getStartState());
     enfa1.setStartState(state);
 }
