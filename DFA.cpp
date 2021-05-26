@@ -135,7 +135,7 @@ std::vector<std::vector<std::string>> combineNonDistinguishable(std::vector<std:
 
 return combinedNonDis;
 }
-
+26 -05- 14:01
 std::map<std::string,State*> getCombinedTransitions(std::map<std::string,State*> baseStates, std::vector<std::string> newStates, std::vector<char> theAlphabet) {
     std::map<std::string,State*> allStates;
     for (auto stateName:newStates) {
