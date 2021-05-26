@@ -11,6 +11,7 @@ class RE{
 public:
     string regex;
     char epsilon;
+    int states;
     RE(string reg, char eps);
     ENFA toENFA();
     ENFA ster(ENFA enfa);

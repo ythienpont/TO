@@ -87,6 +87,18 @@ NFA ENFA::toNFA() {
     return newNFA;
 }
 
-DFA ENFA::toDFA() {
-    return toNFA().toDFA();
+void ENFAState::addTransition(const char c, const std::string &state) {
+    if (transitions.find(c) != transitions.end()) {
+        transitions[c] = {state};
+    } else {
+        transitions[c].push_back(state);
+    }
+}
+
+void ENFAState::addTransition(const char c, const std::vector<std::string> &states) {
+    if (transitions.find(c) != transitions.end()) {
+        transitions[c] = states;
+    } else {
+        transitions[c].insert(transitions[c].end(),states.begin(),states.end());
+    }
 }
