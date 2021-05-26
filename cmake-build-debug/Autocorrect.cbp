@@ -146,12 +146,6 @@
 		<Unit filename="/home/benjamin/CLionProjects/TO/NFA.h">
 			<Option target="Autocorrect"/>
 		</Unit>
-		<Unit filename="/home/benjamin/CLionProjects/TO/RE.cpp">
-			<Option target="Autocorrect"/>
-		</Unit>
-		<Unit filename="/home/benjamin/CLionProjects/TO/RE.h">
-			<Option target="Autocorrect"/>
-		</Unit>
 		<Unit filename="/home/benjamin/CLionProjects/TO/json.hpp">
 			<Option target="Autocorrect"/>
 		</Unit>

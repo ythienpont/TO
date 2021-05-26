@@ -3,7 +3,6 @@
 //
 #include "RE.h"
 #include <string>
-#include <ctype.h>
 #include <stack>
 using namespace std;
 
@@ -13,6 +12,7 @@ RE::RE(string reg, char eps){
     states = 0;
 }
 ENFA RE::toENFA() {
+    //inspiratie gehaald uit https://github.com/nitishabharathi/RE---NFA---DFA-Simulator/blob/master/RE_NFA.cpp
     ENFA newENFA("");
     stack<char> operatoren;
     stack<ENFA> automaat;
@@ -25,7 +25,17 @@ ENFA RE::toENFA() {
         regex.erase(regex.end());
     }
     for(auto reg:regex){
-        if(isalpha(reg)){
+        if(reg == '('){
+            operatoren.push(reg);
+        }else if(reg == ')'){
+
+        }else if(reg == '+'){
+            operatoren.push(reg);
+        }else if(reg == '*'){
+            operatoren.push(reg);
+        }else if(reg == '.'){
+            operatoren.push(reg);
+        }else{
             ENFA enfa("");
             enfa.setType("ENFA");
             if(reg != epsilon){
@@ -48,16 +58,6 @@ ENFA RE::toENFA() {
             automaat.push(enfa);
             delete state;
             delete state2;
-        }else if(reg == '('){
-            operatoren.push(reg);
-        }else if(reg == ')'){
-
-        }else if(reg == '+'){
-            operatoren.push(reg);
-        }else if(reg == '*'){
-            operatoren.push(reg);
-        }else if(reg == '.'){
-            operatoren.push(reg);
         }
     }
     newENFA.setAlphabet(alphabet);
@@ -78,7 +78,4 @@ ENFA RE::ster(ENFA enfa) {
     state->setStarting(true);
     state->setAccepting(false);
     enfa1.setStartState(state);
-
-
-
 }

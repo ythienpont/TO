@@ -5,7 +5,6 @@ file(REMOVE_RECURSE
   "CMakeFiles/Autocorrect.dir/DFA.cpp.o"
   "CMakeFiles/Autocorrect.dir/ENFA.cpp.o"
   "CMakeFiles/Autocorrect.dir/NFA.cpp.o"
-  "CMakeFiles/Autocorrect.dir/RE.cpp.o"
   "CMakeFiles/Autocorrect.dir/main.cpp.o"
 )
 

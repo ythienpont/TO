@@ -23,14 +23,6 @@ CMakeFiles/Autocorrect.dir/NFA.cpp.o: ../NFA.cpp
 CMakeFiles/Autocorrect.dir/NFA.cpp.o: ../NFA.h
 CMakeFiles/Autocorrect.dir/NFA.cpp.o: ../json.hpp
 
-CMakeFiles/Autocorrect.dir/RE.cpp.o: ../Automaton.h
-CMakeFiles/Autocorrect.dir/RE.cpp.o: ../DFA.h
-CMakeFiles/Autocorrect.dir/RE.cpp.o: ../ENFA.h
-CMakeFiles/Autocorrect.dir/RE.cpp.o: ../NFA.h
-CMakeFiles/Autocorrect.dir/RE.cpp.o: ../RE.cpp
-CMakeFiles/Autocorrect.dir/RE.cpp.o: ../RE.h
-CMakeFiles/Autocorrect.dir/RE.cpp.o: ../json.hpp
-
 CMakeFiles/Autocorrect.dir/main.cpp.o: ../Automaton.h
 CMakeFiles/Autocorrect.dir/main.cpp.o: ../DFA.h
 CMakeFiles/Autocorrect.dir/main.cpp.o: ../ENFA.h
