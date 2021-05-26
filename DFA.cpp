@@ -405,7 +405,7 @@ bool DFA::operator==(DFA dfa2) {
 
  vector<string> DFA::autocorrect1(std::string theString) {
      DFA curDFA = minimize();
-     cout << 88<<endl;
+
 
      std::vector<char> alphabet = getAlphabet();
      bool flag = true;
