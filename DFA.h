@@ -13,7 +13,7 @@ public:
     bool accepts(const std::string &theString) override;
 
     // Returnt de state waar je eindigt bij het ingeven van de string
-    State* pad(std::string theString);
+    State* pad(const std::string &theString);
 
     // Minimize DFA volgens het Table Filling Algortime
     DFA minimize();
@@ -24,7 +24,7 @@ public:
     // Ga equivalentie na
     bool operator==(DFA dfa2);
 
-    std::vector<std::string> findWords(std:: string theString);
+    std::vector<std::string> findWords(const std:: string &theString);
     std::vector<std::string> autocorrect1(std::string theString);
 };
 

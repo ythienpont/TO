@@ -379,7 +379,7 @@ bool DFA::operator==(DFA dfa2) {
 }
 
 
- vector<string> DFA::findWords(string theString){
+ vector<string> DFA::findWords(const std::string &theString){
      std::vector<char> alphabet = getAlphabet();
      State* state = pad(theString);
      vector<string> words;
@@ -436,7 +436,7 @@ bool DFA::operator==(DFA dfa2) {
      return {""};
  }
 
-State* DFA::pad(std::string theString) {
+State* DFA::pad(const std::string &theString) {
     State *currentState = getStartState();
 
     if (theString.empty()) {
