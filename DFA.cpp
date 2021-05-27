@@ -406,7 +406,6 @@ bool DFA::operator==(DFA dfa2) {
  vector<string> DFA::autocorrect1(std::string theString) {
      DFA curDFA = minimize();
 
-
      std::vector<char> alphabet = getAlphabet();
      bool flag = true;
      bool stop = false;

@@ -24,7 +24,6 @@ public:
     // Ga equivalentie na
     bool operator==(DFA dfa2);
 
-
     std::vector<std::string> findWords(std:: string theString);
     std::vector<std::string> autocorrect1(std::string theString);
 };

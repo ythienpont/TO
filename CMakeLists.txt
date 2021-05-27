@@ -17,10 +17,11 @@ set(engine_sources
     Automaton.cpp
     DFA.cpp
     ENFA.cpp
-    #RE.cpp
+    RE.cpp
     json.hpp
     NFA.cpp
-    main.cpp RE.cpp RE.h)
+    main.cpp
+    Autocorrect.cpp)
 
 ############################################################
 # Create an executable
