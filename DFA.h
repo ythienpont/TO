@@ -12,6 +12,7 @@ public:
 
     bool accepts(const std::string &theString) override;
 
+    // Returnt de state waar je eindigt bij het ingeven van de string
     State* pad(std::string theString);
 
     // Minimize DFA volgens het Table Filling Algortime
@@ -20,6 +21,7 @@ public:
     // Print TFA tabel
     void printTable();
 
+    // Ga equivalentie na
     bool operator==(DFA dfa2);
 
 
