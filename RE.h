@@ -11,7 +11,7 @@ public:
     string regex;
     char epsilon;
     int states;
-    RE(string reg, char eps);
+    RE(const string &reg, const char eps);
     ENFA toENFA();
     ENFA ster(ENFA enfa);
     ENFA concatenatie(ENFA enfa1, ENFA enfa2);

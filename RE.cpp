@@ -6,7 +6,7 @@
 #include <stack>
 using namespace std;
 
-RE::RE(string reg, char eps){
+RE::RE(const std::string &reg, const char eps){
     regex = reg;
     epsilon = eps;
     states = 0;
