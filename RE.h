@@ -15,6 +15,6 @@ public:
     ENFA toENFA();
     ENFA ster(ENFA enfa);
     ENFA concatenatie(ENFA enfa1, ENFA enfa2);
-    ENFA plus(ENFA enfa1, ENFA enfa2);
+    ENFA plus(vector<ENFA> enfa);
 };
 #endif //RE_H

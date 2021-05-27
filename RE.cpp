@@ -14,8 +14,8 @@ RE::RE(string reg, char eps){
 ENFA RE::toENFA() {
     //inspiratie gehaald uit https://github.com/nitishabharathi/RE---NFA---DFA-Simulator/blob/master/RE_NFA.cpp
     ENFA newENFA("");
-    stack<char> operatoren;
-    stack<ENFA> automaat;
+    vector<char> operatoren;
+    vector<ENFA> automaat;
     vector<char>alphabet;
     newENFA.setType("ENFA");
     newENFA.setEpsilon(epsilon);
@@ -25,17 +25,7 @@ ENFA RE::toENFA() {
         regex.erase(regex.end());
     }
     for(auto reg:regex){
-        if(reg == '('){
-            operatoren.push(reg);
-        }else if(reg == ')'){
-
-        }else if(reg == '+'){
-            operatoren.push(reg);
-        }else if(reg == '*'){
-            operatoren.push(reg);
-        }else if(reg == '.'){
-            operatoren.push(reg);
-        }else{
+        if(reg != '(' && reg != ')' && reg != '+' && reg != '.' && reg != '*'){
             ENFA enfa("");
             enfa.setType("ENFA");
             if(reg != epsilon){
@@ -55,16 +45,28 @@ ENFA RE::toENFA() {
             state2->setStarting(false);
             state2->setAccepting(true);
             enfa.setState(z,state2);
-            automaat.push(enfa);
+            automaat.push_back(enfa);
             delete state;
             delete state2;
+        }else if(reg == '('){
+            operatoren.push_back(reg);
+        }else if(reg == ')'){
+
+        }else if(reg == '+'){
+            operatoren.push_back(reg);
+        }else if(reg == '*'){
+            operatoren.push_back(reg);
+        }else if(reg == '.'){
+            operatoren.push_back(reg);
+        }else{
+
         }
     }
     newENFA.setAlphabet(alphabet);
     return newENFA;
 }
 
-ENFA RE::plus(ENFA enfa1, ENFA enfa2) {
+ENFA RE::plus(vector<ENFA> enfa1) {
     ENFA enfa("");
     string s(1, states);
     ++states;
@@ -75,31 +77,28 @@ ENFA RE::plus(ENFA enfa1, ENFA enfa2) {
     enfa.setType("ENFA");
     enfa.setEpsilon(epsilon);
     vector<char> alphabet;
-    alphabet = enfa1.getAlphabet();
-    for(auto it: enfa2.getAlphabet()){
-        if(count(alphabet.begin(), alphabet.end(), it) == 0){
-            alphabet.push_back(it);
+    alphabet = enfa1.begin()->getAlphabet();
+    for(auto it = 0; it != enfa1.size(); it++){
+        for(auto& i:enfa1[it].getAlphabet()){
+            if(count(alphabet.begin(), alphabet.end(), i) == 0){
+                alphabet.push_back(i);
+            }
         }
     }
     vector<string> transition;
-    transition.push_back(enfa1.getStartState()->getName());
-    enfa1.getStartState()->setStarting(false);
-    transition.push_back(enfa2.getStartState()->getName());
-    enfa2.getStartState()->setStarting(false);
-    state->addTransitions(epsilon, transition);
-    for(auto it:enfa1.getStates()){
-        if(it.second->isAccepting()){
-            it.second->addTransition(epsilon,z);
-            it.second->setAccepting(false);
-        }
-        enfa.setState(it.second->getName(),it.second);
+    for(auto it = 0; it != enfa1.size(); it++){
+        transition.push_back(enfa1[it].getStartState()->getName());
+        enfa1[it].getStartState()->setStarting(false);
     }
-    for(auto it:enfa2.getStates()){
-        if(it.second->isAccepting()){
-            it.second->addTransition(epsilon,z);
-            it.second->setAccepting(false);
+    state->addTransitions(epsilon, transition);
+    for(auto it = 0; it != enfa1.size(); it++){
+        for(auto& i:enfa1[it].getStates()){
+            if(i.second->isAccepting()){
+                i.second->addTransition(epsilon,z);
+                i.second->setAccepting(false);
+            }
+            enfa.setState(i.first,i.second);
         }
-        enfa.setState(it.second->getName(),it.second);
     }
     delete state;
     delete state2;
