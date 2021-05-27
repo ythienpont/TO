@@ -1,5 +1,6 @@
- #include "DFA.h"
- using namespace std;
+#include "DFA.h"
+#include <cstdlib>
+using namespace std;
 
 std::string productState(std::string state1, std::string state2) {
     return "(" + state1 + "," + state2 + ")";
@@ -453,8 +454,10 @@ State* DFA::pad(const std::string &theString) {
     return currentState;
 }
 
- std::string DFA::randomWord() const {
+ std::string DFA::randomWord(){
     string word;
+    DFA curDFA = minimize();
+    int randomBool = rand()%2; // deze waarde is 0 of 1
 
     //...
 
