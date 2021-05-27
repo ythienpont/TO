@@ -452,3 +452,11 @@ State* DFA::pad(const std::string &theString) {
 
     return currentState;
 }
+
+ std::string DFA::randomWord() const {
+    string word;
+
+    //...
+
+    return word;
+ }

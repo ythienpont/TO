@@ -26,6 +26,7 @@ public:
 
     std::vector<std::string> findWords(const std:: string &theString);
     std::vector<std::string> autocorrect1(std::string theString);
+    std::string randomWord() const;
 };
 
 #endif //DFA_H

@@ -13,12 +13,26 @@ void Autocorrect::inlezen() {
 
 }
 
-void Autocorrect::autocorrect1(DFA dfa) {
+void Autocorrect::autocorrect1(const string& theString)  {
+    vector<string> correctedWords = mainDFA.autocorrect1(theString);
+    if(correctedWords[0] == theString) cout << "De string '" << theString<<"' wordt aanvaard!"<<endl;
+    else {
+        cout << "origineel woord: -verbeterd woord 1- -verbeterd woord 2- ..." << endl;
+        cout << theString << ": ";
+        for (const auto &a: correctedWords) {
+            cout << '-' << a << "- ";
+        }
+        cout << endl;
+    }
+}
+
+void Autocorrect::autocorrect2(const string& theString) {
 
 }
 
-void Autocorrect::autocorrect2(DFA) {
-
+void Autocorrect::generateWord() {
+    string random = mainDFA.randomWord();
+    cout << "random word: "<< random << endl;
 }
 
 
