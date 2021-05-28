@@ -4,8 +4,11 @@
 #include "RE.h"
 
 class Autocorrect {
-    DFA mainDFA;
+    DFA *mainDFA;
 public:
+    Autocorrect();
+    void run();
+
     void inlezen();
     void autocorrect1(const std::string &string);
     void autocorrect2(const std::string &string);
