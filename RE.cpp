@@ -23,13 +23,11 @@ ENFA RE::toENFA() {
         regex.erase(regex.end());
     }
     for(auto reg = 0; reg != regex.size(); reg++){
-        if(isalpha(regex[reg])){
+        if(isalpha(regex[reg]) && regex[reg] != epsilon){
             ENFA enfa("");
             enfa.setType("ENFA");
-            if(regex[reg] != epsilon){
-                vector<char> alp = {regex[reg]};
-                enfa.setAlphabet(alp);
-            }
+            vector<char> alp = {regex[reg]};
+            enfa.setAlphabet(alp);
             enfa.setEpsilon(epsilon);
             string s(1,states);
             State* state = new State(s);
@@ -45,7 +43,24 @@ ENFA RE::toENFA() {
             state2->setAccepting(true);
             enfa.setState(z,state2);
             automaat.push_back(enfa);
-
+        }else if(regex[reg] == epsilon){
+            ENFA enfa("");
+            enfa.setType("ENFA");
+            enfa.setEpsilon(epsilon);
+            string s(1,states);
+            State* state = new State(s);
+            state->setStarting(true);
+            state->setAccepting(false);
+            enfa.setStartState(state);
+            ++states;
+            string z(1, states);
+            ++states;
+            State* state2 = new State(z);
+            state->addTransition(regex[reg],z);
+            state2->setStarting(false);
+            state2->setAccepting(true);
+            enfa.setState(z,state2);
+            automaat.push_back(enfa);
         }else if(regex[reg] == '(') {
             operatoren.push_back(regex[reg]);
         }else if(regex[reg] == '+'){
