@@ -159,8 +159,6 @@ ENFA RE::plus(vector<ENFA> enfa1) {
             enfa.setState(i.first,i.second);
         }
     }
-    delete state;
-    delete state2;
     return enfa;
 }
 
@@ -206,7 +204,5 @@ ENFA RE::ster(ENFA enfa) {
     enfa1.setState(s,state);
     state2->setAccepting(true);
     enfa1.setState(z,state2);
-    delete state;
-    delete state2;
     return enfa1;
 }
