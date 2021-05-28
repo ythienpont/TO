@@ -115,9 +115,22 @@ CMakeFiles/Autocorrect.dir/ENFA.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Autocorrect.dir/ENFA.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/benjamin/CLionProjects/TO/ENFA.cpp -o CMakeFiles/Autocorrect.dir/ENFA.cpp.s
 
+CMakeFiles/Autocorrect.dir/RE.cpp.o: CMakeFiles/Autocorrect.dir/flags.make
+CMakeFiles/Autocorrect.dir/RE.cpp.o: ../RE.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/benjamin/CLionProjects/TO/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/Autocorrect.dir/RE.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Autocorrect.dir/RE.cpp.o -c /home/benjamin/CLionProjects/TO/RE.cpp
+
+CMakeFiles/Autocorrect.dir/RE.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Autocorrect.dir/RE.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/benjamin/CLionProjects/TO/RE.cpp > CMakeFiles/Autocorrect.dir/RE.cpp.i
+
+CMakeFiles/Autocorrect.dir/RE.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Autocorrect.dir/RE.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/benjamin/CLionProjects/TO/RE.cpp -o CMakeFiles/Autocorrect.dir/RE.cpp.s
+
 CMakeFiles/Autocorrect.dir/NFA.cpp.o: CMakeFiles/Autocorrect.dir/flags.make
 CMakeFiles/Autocorrect.dir/NFA.cpp.o: ../NFA.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/benjamin/CLionProjects/TO/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/Autocorrect.dir/NFA.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/benjamin/CLionProjects/TO/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/Autocorrect.dir/NFA.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Autocorrect.dir/NFA.cpp.o -c /home/benjamin/CLionProjects/TO/NFA.cpp
 
 CMakeFiles/Autocorrect.dir/NFA.cpp.i: cmake_force
@@ -130,7 +143,7 @@ CMakeFiles/Autocorrect.dir/NFA.cpp.s: cmake_force
 
 CMakeFiles/Autocorrect.dir/main.cpp.o: CMakeFiles/Autocorrect.dir/flags.make
 CMakeFiles/Autocorrect.dir/main.cpp.o: ../main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/benjamin/CLionProjects/TO/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/Autocorrect.dir/main.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/benjamin/CLionProjects/TO/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/Autocorrect.dir/main.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Autocorrect.dir/main.cpp.o -c /home/benjamin/CLionProjects/TO/main.cpp
 
 CMakeFiles/Autocorrect.dir/main.cpp.i: cmake_force
@@ -141,27 +154,28 @@ CMakeFiles/Autocorrect.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Autocorrect.dir/main.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/benjamin/CLionProjects/TO/main.cpp -o CMakeFiles/Autocorrect.dir/main.cpp.s
 
-CMakeFiles/Autocorrect.dir/RE.cpp.o: CMakeFiles/Autocorrect.dir/flags.make
-CMakeFiles/Autocorrect.dir/RE.cpp.o: ../RE.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/benjamin/CLionProjects/TO/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/Autocorrect.dir/RE.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Autocorrect.dir/RE.cpp.o -c /home/benjamin/CLionProjects/TO/RE.cpp
+CMakeFiles/Autocorrect.dir/Autocorrect.cpp.o: CMakeFiles/Autocorrect.dir/flags.make
+CMakeFiles/Autocorrect.dir/Autocorrect.cpp.o: ../Autocorrect.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/benjamin/CLionProjects/TO/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/Autocorrect.dir/Autocorrect.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Autocorrect.dir/Autocorrect.cpp.o -c /home/benjamin/CLionProjects/TO/Autocorrect.cpp
 
-CMakeFiles/Autocorrect.dir/RE.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Autocorrect.dir/RE.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/benjamin/CLionProjects/TO/RE.cpp > CMakeFiles/Autocorrect.dir/RE.cpp.i
+CMakeFiles/Autocorrect.dir/Autocorrect.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Autocorrect.dir/Autocorrect.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/benjamin/CLionProjects/TO/Autocorrect.cpp > CMakeFiles/Autocorrect.dir/Autocorrect.cpp.i
 
-CMakeFiles/Autocorrect.dir/RE.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Autocorrect.dir/RE.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/benjamin/CLionProjects/TO/RE.cpp -o CMakeFiles/Autocorrect.dir/RE.cpp.s
+CMakeFiles/Autocorrect.dir/Autocorrect.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Autocorrect.dir/Autocorrect.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/benjamin/CLionProjects/TO/Autocorrect.cpp -o CMakeFiles/Autocorrect.dir/Autocorrect.cpp.s
 
 # Object files for target Autocorrect
 Autocorrect_OBJECTS = \
 "CMakeFiles/Autocorrect.dir/Automaton.cpp.o" \
 "CMakeFiles/Autocorrect.dir/DFA.cpp.o" \
 "CMakeFiles/Autocorrect.dir/ENFA.cpp.o" \
+"CMakeFiles/Autocorrect.dir/RE.cpp.o" \
 "CMakeFiles/Autocorrect.dir/NFA.cpp.o" \
 "CMakeFiles/Autocorrect.dir/main.cpp.o" \
-"CMakeFiles/Autocorrect.dir/RE.cpp.o"
+"CMakeFiles/Autocorrect.dir/Autocorrect.cpp.o"
 
 # External object files for target Autocorrect
 Autocorrect_EXTERNAL_OBJECTS =
@@ -169,12 +183,13 @@ Autocorrect_EXTERNAL_OBJECTS =
 Autocorrect: CMakeFiles/Autocorrect.dir/Automaton.cpp.o
 Autocorrect: CMakeFiles/Autocorrect.dir/DFA.cpp.o
 Autocorrect: CMakeFiles/Autocorrect.dir/ENFA.cpp.o
+Autocorrect: CMakeFiles/Autocorrect.dir/RE.cpp.o
 Autocorrect: CMakeFiles/Autocorrect.dir/NFA.cpp.o
 Autocorrect: CMakeFiles/Autocorrect.dir/main.cpp.o
-Autocorrect: CMakeFiles/Autocorrect.dir/RE.cpp.o
+Autocorrect: CMakeFiles/Autocorrect.dir/Autocorrect.cpp.o
 Autocorrect: CMakeFiles/Autocorrect.dir/build.make
 Autocorrect: CMakeFiles/Autocorrect.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/benjamin/CLionProjects/TO/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX executable Autocorrect"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/benjamin/CLionProjects/TO/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX executable Autocorrect"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/Autocorrect.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

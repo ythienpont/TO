@@ -3,7 +3,6 @@
 //
 #include "RE.h"
 #include <string>
-#include <stack>
 using namespace std;
 
 RE::RE(const std::string &reg, const char eps){
@@ -19,17 +18,16 @@ ENFA RE::toENFA() {
     vector<char>alphabet;
     newENFA.setType("ENFA");
     newENFA.setEpsilon(epsilon);
-    vector<string> currentState;
     if(regex.at(0) == '(' && regex.at(regex.size() - 1) == ')'){
         regex.erase(regex.begin());
         regex.erase(regex.end());
     }
-    for(auto reg:regex){
-        if(reg != '(' && reg != ')' && reg != '+' && reg != '.' && reg != '*'){
+    for(auto reg = 0; reg != regex.size(); reg++){
+        if(regex[reg] != '(' && regex[reg] != ')' && regex[reg] != '+' && regex[reg] != '.' && regex[reg] != '*'){
             ENFA enfa("");
             enfa.setType("ENFA");
-            if(reg != epsilon){
-                vector<char> alp = {reg};
+            if(regex[reg] != epsilon){
+                vector<char> alp = {regex[reg]};
                 enfa.setAlphabet(alp);
             }
             enfa.setEpsilon(epsilon);
@@ -40,32 +38,93 @@ ENFA RE::toENFA() {
             enfa.setStartState(state);
             ++states;
             string z(1, states);
+            ++states;
             State* state2 = new State(z);
-            state->addTransition(reg,z);
+            state->addTransition(regex[reg],z);
             state2->setStarting(false);
             state2->setAccepting(true);
             enfa.setState(z,state2);
             automaat.push_back(enfa);
-            delete state;
-            delete state2;
-        }else if(reg == '('){
-            operatoren.push_back(reg);
-        }else if(reg == ')'){
 
-        }else if(reg == '+'){
-            operatoren.push_back(reg);
-        }else if(reg == '*'){
-            operatoren.push_back(reg);
-        }else if(reg == '.'){
-            operatoren.push_back(reg);
+        }else if(regex[reg] == '(') {
+            operatoren.push_back(regex[reg]);
+        }else if(regex[reg] == '+'){
+            operatoren.push_back(regex[reg]);
+        }else if(regex[reg] == '*'){
+            operatoren.push_back(regex[reg]);
+        }else if(regex[reg] == '.'){
+            operatoren.push_back(regex[reg]);
         }else{
+            if(reg != regex.size() -1 && isalpha(regex.at(reg+1))){
+                operatoren.push_back(regex[reg]);
+                operatoren.push_back('.');
+            }else{
+                operatoren.push_back(regex[reg]);
+            }
 
         }
     }
-    newENFA.setAlphabet(alphabet);
+    while(automaat.size() != 1){
+        int autom = 0;
+        vector<ENFA> aut = automaat;
+        automaat = {};
+        vector<char>symb = operatoren;
+        operatoren = {};
+        vector<ENFA> ENFA;
+        for(auto it = 0; it != symb.size(); it++){
+            while(autom <= aut.size()){
+                if(symb[it] == '+'){
+                    if(symb[it] == '('){
+                        operatoren.push_back('+');
+                    }else{
+                        if(ENFA.size() == 0){
+                            ENFA.push_back(aut[autom]);
+                            ++autom;
+                        }
+                        ENFA.push_back(aut[autom]);
+                        ++autom;
+                    }
+                }else if( symb[it] == ')'){
+                    if(ENFA.size() > 0){
+                        automaat.push_back(plus(ENFA));
+                        ENFA = {};
+                    }
+                }else if(symb[it] == '*'){
+                    if(symb[it-1] == ')'){
+                        automaat.back() = ster(automaat.back());
+                    }else{
+                        automaat.push_back(ster(aut[autom]));
+                        ++autom;
+                    }
+                }else if(symb[it] == '.'){
+                    if(symb[it-1] == ')'){
+                        automaat.back() = concatenatie(automaat.back(), aut[autom]);
+                        ++autom;
+                    }else{
+                        ++autom;
+                        automaat.push_back(concatenatie(aut[autom-1], aut[autom]));
+                        ++autom;
+                    }
+                }else if(symb[it] == '('){
+                    if(symb[it-1] != '(' && ENFA.size() > 0){
+                        automaat.push_back(plus(ENFA));
+                        ENFA = {};
+                    }
+                }
+            }
+            if(ENFA.size() > 0){
+                automaat.push_back(plus(ENFA));
+                ENFA = {};
+            }
+
+        }
+    }
+    newENFA = automaat[0];
     return newENFA;
 }
+RE::~RE(){
 
+}
 ENFA RE::plus(vector<ENFA> enfa1) {
     ENFA enfa("");
     string s(1, states);

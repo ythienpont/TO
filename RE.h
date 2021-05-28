@@ -12,6 +12,7 @@ public:
     char epsilon;
     int states;
     RE(const string &reg, const char eps);
+    ~RE();
     ENFA toENFA();
     ENFA ster(ENFA enfa);
     ENFA concatenatie(ENFA enfa1, ENFA enfa2);

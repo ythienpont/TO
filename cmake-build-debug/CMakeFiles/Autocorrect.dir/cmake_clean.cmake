@@ -1,6 +1,7 @@
 file(REMOVE_RECURSE
   "Autocorrect"
   "Autocorrect.pdb"
+  "CMakeFiles/Autocorrect.dir/Autocorrect.cpp.o"
   "CMakeFiles/Autocorrect.dir/Automaton.cpp.o"
   "CMakeFiles/Autocorrect.dir/DFA.cpp.o"
   "CMakeFiles/Autocorrect.dir/ENFA.cpp.o"
