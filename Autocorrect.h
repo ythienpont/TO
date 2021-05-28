@@ -1,8 +1,7 @@
-
 #ifndef AUTOCORRECT_AUTOCORRECT_H
 #define AUTOCORRECT_AUTOCORRECT_H
 
-#include "DFA.h"
+#include "RE.h"
 
 class Autocorrect {
 public:
