@@ -2,12 +2,17 @@
 #include "Autocorrect.h"
 
 void Autocorrect::inlezen() {
-    string regex = " ";
-    while(!regex.empty()) {
+    string regex;
+    char symb;
+    cout << "De regexen worden nu ingelezen. U kunt het programma stoppen door bij de regex prompt 'stop' in te geven." << endl;
+    while(regex != "stop") {
         cout << "Geef een regex in aub: ";
         cin >> regex;
-        //RE tempRE(regex); // dit kan verder aangevuld worden wanneer de RE constructor is gemaakt
-        //listRegex.push_back(tempRE);
+        cout << "Geef het epsilon symbool in aub: ";
+        cin >> symb;
+
+        RE tempRE(regex, symb);
+        listRegex.push_back(tempRE);
     }
     cout << "Alle regexen zijn ingelezen."<<endl;
 
