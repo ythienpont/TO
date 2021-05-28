@@ -138,10 +138,10 @@ ENFA RE::plus(vector<ENFA> enfa1) {
     enfa.setState(state2->getName(),state2);
     enfa.setType("ENFA");
     enfa.setEpsilon(epsilon);
-    vector<char> alphabet;
+    vector<char> alphabet = enfa.getAlphabet();
     for(auto it = 0; it != enfa1.size(); it++){
         for(auto& i:enfa1[it].getAlphabet()){
-            if(count(alphabet.begin(), alphabet.end(), i) == 0){
+            if(count(alphabet.begin(),alphabet.end(), i) == 0){
                 alphabet.push_back(i);
             }
         }
@@ -177,7 +177,7 @@ ENFA RE::concatenatie(ENFA enfa1, ENFA enfa2) {
     }
     vector<char> alf = enfa.getAlphabet();
     for(auto it:enfa2.getAlphabet()){
-        if(count(enfa.getAlphabet().begin(),enfa.getAlphabet().end(),it) == 0){
+        if(count(alf.begin(),alf.end(),it) == 0){
             alf.push_back(it);
         }
     }
