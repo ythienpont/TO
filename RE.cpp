@@ -23,7 +23,7 @@ ENFA RE::toENFA() {
         regex.erase(regex.end());
     }
     for(auto reg = 0; reg != regex.size(); reg++){
-        if(regex[reg] != '(' && regex[reg] != ')' && regex[reg] != '+' && regex[reg] != '.' && regex[reg] != '*'){
+        if(isalpha(regex[reg])){
             ENFA enfa("");
             enfa.setType("ENFA");
             if(regex[reg] != epsilon){

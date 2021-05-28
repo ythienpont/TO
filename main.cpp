@@ -14,8 +14,8 @@ int main() {
     //cout << boolalpha << (mindfa == dfa2) << endl;    // zijn ze equivalent? Zou hier zeker moeten. Dit wordt getest in de volgende vraag, maar hiermee kan je al eens proberen
 
     RE re("(m+y)*+(e+y+m+i)s",'e');
-    /*ENFA enfa = re.toENFA();
-    geeft true
+    ENFA enfa = re.toENFA();
+    /*geeft true
     out << boolalpha << enfa.accepts("ys") << endl;
     cout << boolalpha << enfa.accepts("mmyyymmmym") << endl;
     cout << boolalpha << enfa.accepts("s") << endl;
