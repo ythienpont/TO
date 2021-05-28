@@ -240,7 +240,7 @@ Automaton::Automaton(const std::string &fin) {
 
 }
 
-Automaton::~Automaton() {
+/*Automaton::~Automaton() {
     std::map<std::string, State*>::iterator it = states.begin();
 
     while (it != states.end()) {
@@ -251,7 +251,8 @@ Automaton::~Automaton() {
    }
 
    states.clear();
-}
+
+}*/
 
 State* Automaton::getState(const std::string &name) {
     std::map<std::string, State*>::const_iterator it = states.find(name);

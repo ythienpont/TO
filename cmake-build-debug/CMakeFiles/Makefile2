@@ -93,12 +93,12 @@ clean: CMakeFiles/Autocorrect.dir/clean
 CMakeFiles/Autocorrect.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Autocorrect.dir/build.make CMakeFiles/Autocorrect.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Autocorrect.dir/build.make CMakeFiles/Autocorrect.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/benjamin/CLionProjects/TO/cmake-build-debug/CMakeFiles --progress-num=1,2,3,4,5,6,7 "Built target Autocorrect"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/benjamin/CLionProjects/TO/cmake-build-debug/CMakeFiles --progress-num=1,2,3,4,5,6,7,8 "Built target Autocorrect"
 .PHONY : CMakeFiles/Autocorrect.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/Autocorrect.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/benjamin/CLionProjects/TO/cmake-build-debug/CMakeFiles 7
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/benjamin/CLionProjects/TO/cmake-build-debug/CMakeFiles 8
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/Autocorrect.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/benjamin/CLionProjects/TO/cmake-build-debug/CMakeFiles 0
 .PHONY : CMakeFiles/Autocorrect.dir/rule

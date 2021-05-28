@@ -188,6 +188,33 @@ Autocorrect/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Autocorrect.dir/build.make CMakeFiles/Autocorrect.dir/build
 .PHONY : Autocorrect/fast
 
+Autocorrect.o: Autocorrect.cpp.o
+
+.PHONY : Autocorrect.o
+
+# target to build an object file
+Autocorrect.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Autocorrect.dir/build.make CMakeFiles/Autocorrect.dir/Autocorrect.cpp.o
+.PHONY : Autocorrect.cpp.o
+
+Autocorrect.i: Autocorrect.cpp.i
+
+.PHONY : Autocorrect.i
+
+# target to preprocess a source file
+Autocorrect.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Autocorrect.dir/build.make CMakeFiles/Autocorrect.dir/Autocorrect.cpp.i
+.PHONY : Autocorrect.cpp.i
+
+Autocorrect.s: Autocorrect.cpp.s
+
+.PHONY : Autocorrect.s
+
+# target to generate assembly for a file
+Autocorrect.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Autocorrect.dir/build.make CMakeFiles/Autocorrect.dir/Autocorrect.cpp.s
+.PHONY : Autocorrect.cpp.s
+
 Automaton.o: Automaton.cpp.o
 
 .PHONY : Automaton.o
@@ -363,6 +390,9 @@ help:
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
 	@echo "... Autocorrect"
+	@echo "... Autocorrect.o"
+	@echo "... Autocorrect.i"
+	@echo "... Autocorrect.s"
 	@echo "... Automaton.o"
 	@echo "... Automaton.i"
 	@echo "... Automaton.s"

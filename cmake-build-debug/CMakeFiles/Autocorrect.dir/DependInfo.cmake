@@ -4,6 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
+  "/home/benjamin/CLionProjects/TO/Autocorrect.cpp" "/home/benjamin/CLionProjects/TO/cmake-build-debug/CMakeFiles/Autocorrect.dir/Autocorrect.cpp.o"
   "/home/benjamin/CLionProjects/TO/Automaton.cpp" "/home/benjamin/CLionProjects/TO/cmake-build-debug/CMakeFiles/Autocorrect.dir/Automaton.cpp.o"
   "/home/benjamin/CLionProjects/TO/DFA.cpp" "/home/benjamin/CLionProjects/TO/cmake-build-debug/CMakeFiles/Autocorrect.dir/DFA.cpp.o"
   "/home/benjamin/CLionProjects/TO/ENFA.cpp" "/home/benjamin/CLionProjects/TO/cmake-build-debug/CMakeFiles/Autocorrect.dir/ENFA.cpp.o"

@@ -122,6 +122,12 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="/home/benjamin/CLionProjects/TO/Autocorrect.cpp">
+			<Option target="Autocorrect"/>
+		</Unit>
+		<Unit filename="/home/benjamin/CLionProjects/TO/Autocorrect.h">
+			<Option target="Autocorrect"/>
+		</Unit>
 		<Unit filename="/home/benjamin/CLionProjects/TO/Automaton.cpp">
 			<Option target="Autocorrect"/>
 		</Unit>
