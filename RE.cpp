@@ -15,7 +15,6 @@ ENFA RE::toENFA() {
     ENFA newENFA("");
     vector<char> operatoren;
     vector<ENFA> automaat;
-    vector<char>alphabet;
     newENFA.setType("ENFA");
     newENFA.setEpsilon(epsilon);
     if(regex.at(0) == '(' && regex.at(regex.size() - 1) == ')'){
@@ -23,37 +22,21 @@ ENFA RE::toENFA() {
         regex.erase(regex.end());
     }
     for(auto reg = 0; reg != regex.size(); reg++){
-        if(isalpha(regex[reg]) && regex[reg] != epsilon){
+        if(isalpha(regex[reg]) || regex[reg] == epsilon){
             ENFA enfa("");
             enfa.setType("ENFA");
-            vector<char> alp = {regex[reg]};
-            enfa.setAlphabet(alp);
+            if(isalpha(regex[reg]) && regex[reg] != epsilon){
+                vector<char> alp = {regex[reg]};
+                enfa.setAlphabet(alp);
+            }
             enfa.setEpsilon(epsilon);
-            string s(1,states);
+            string s = to_string(states);
             State* state = new State(s);
             state->setStarting(true);
             state->setAccepting(false);
             enfa.setStartState(state);
             ++states;
-            string z(1, states);
-            ++states;
-            State* state2 = new State(z);
-            state->addTransition(regex[reg],z);
-            state2->setStarting(false);
-            state2->setAccepting(true);
-            enfa.setState(z,state2);
-            automaat.push_back(enfa);
-        }else if(regex[reg] == epsilon){
-            ENFA enfa("");
-            enfa.setType("ENFA");
-            enfa.setEpsilon(epsilon);
-            string s(1,states);
-            State* state = new State(s);
-            state->setStarting(true);
-            state->setAccepting(false);
-            enfa.setStartState(state);
-            ++states;
-            string z(1, states);
+            string z = to_string(states);
             ++states;
             State* state2 = new State(z);
             state->addTransition(regex[reg],z);
@@ -86,10 +69,10 @@ ENFA RE::toENFA() {
         vector<char>symb = operatoren;
         operatoren = {};
         vector<ENFA> ENFA;
-        for(auto it = 0; it != symb.size(); it++){
-            while(autom <= aut.size()){
+        while(autom < aut.size()){
+            for(auto it = 0; it != symb.size(); it++){
                 if(symb[it] == '+'){
-                    if(symb[it] == '('){
+                    if(symb[it+1] == '('){
                         operatoren.push_back('+');
                     }else{
                         if(ENFA.size() == 0){
@@ -126,12 +109,12 @@ ENFA RE::toENFA() {
                         ENFA = {};
                     }
                 }
+
             }
             if(ENFA.size() > 0){
                 automaat.push_back(plus(ENFA));
                 ENFA = {};
             }
-
         }
     }
     newENFA = automaat[0];
@@ -142,16 +125,20 @@ RE::~RE(){
 }
 ENFA RE::plus(vector<ENFA> enfa1) {
     ENFA enfa("");
-    string s(1, states);
+    string s = to_string(states);
     ++states;
-    string z(1,states);
+    string z = to_string(states);
     ++states;
     State* state = new State(s);
+    state->setAccepting(true);
+    enfa.setStartState(state);
+    enfa.setState(state->getName(), state);
     State* state2 = new State(z);
+    state2->setAccepting(true);
+    enfa.setState(state2->getName(),state2);
     enfa.setType("ENFA");
     enfa.setEpsilon(epsilon);
     vector<char> alphabet;
-    alphabet = enfa1.begin()->getAlphabet();
     for(auto it = 0; it != enfa1.size(); it++){
         for(auto& i:enfa1[it].getAlphabet()){
             if(count(alphabet.begin(), alphabet.end(), i) == 0){
@@ -159,10 +146,12 @@ ENFA RE::plus(vector<ENFA> enfa1) {
             }
         }
     }
+    enfa.setAlphabet(alphabet);
     vector<string> transition;
     for(auto it = 0; it != enfa1.size(); it++){
         transition.push_back(enfa1[it].getStartState()->getName());
         enfa1[it].getStartState()->setStarting(false);
+        enfa.setState(enfa1[it].getStartState()->getName(),enfa1[it].getStartState());
     }
     state->addTransitions(epsilon, transition);
     for(auto it = 0; it != enfa1.size(); it++){
@@ -186,6 +175,13 @@ ENFA RE::concatenatie(ENFA enfa1, ENFA enfa2) {
             it.second->addTransition(epsilon,enfa2.getStartState()->getName());
         }
     }
+    vector<char> alf = enfa.getAlphabet();
+    for(auto it:enfa2.getAlphabet()){
+        if(count(enfa.getAlphabet().begin(),enfa.getAlphabet().end(),it) == 0){
+            alf.push_back(it);
+        }
+    }
+    enfa.setAlphabet(alf);
     enfa2.getStartState()->setAccepting(false);
     for(auto it: enfa2.getStates()){
         enfa.setState(it.second->getName(),it.second);
@@ -195,7 +191,7 @@ ENFA RE::concatenatie(ENFA enfa1, ENFA enfa2) {
 ENFA RE::ster(ENFA enfa) {
     ENFA enfa1("");
     enfa1 = enfa;
-    string s(1,states);
+    string s = to_string(states);
     ++states;
     vector<string>eps_transitions;
     State* state = new State(s);
@@ -203,7 +199,7 @@ ENFA RE::ster(ENFA enfa) {
     state->setAccepting(false);
     eps_transitions.push_back(enfa.getStartState()->getName());
     enfa1.getStartState()->setStarting(false);
-    string z(1,states);
+    string z = to_string(states);
     ++states;
     State* state2 = new State(z);
     eps_transitions.push_back(z);
