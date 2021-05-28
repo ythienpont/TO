@@ -21,12 +21,16 @@ void Autocorrect::run() {
 }
 
 void Autocorrect::inlezen() {
+    vector<RE> listRegex;
     string regex;
     char symb;
     cout << "De regexen worden nu ingelezen. U kunt het programma stoppen door bij de regex prompt 'stop' in te geven." << endl;
-    while(regex != "stop") {
+    while(true) {
         cout << "Geef een regex in aub: ";
         cin >> regex;
+        if(regex == "stop"){
+            break;
+        }
         cout << "Geef het epsilon symbool in aub: ";
         cin >> symb;
 
@@ -35,6 +39,8 @@ void Autocorrect::inlezen() {
     }
     cout << "Alle regexen zijn ingelezen."<<endl;
 
+    // hier worden de regexen samengevoegd
+    // ...
 }
 
 void Autocorrect::autocorrect1(const string& theString)  {
