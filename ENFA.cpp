@@ -93,34 +93,12 @@ NFA ENFA::toNFA() {
     for (const auto& x:theStates) {
         State* theState = x.second;
         State* newState = new State(theState->getName());
-        //newState->setAccepting(theState->isAccepting());
         newState->setStarting(theState->isStarting());
 
         if (newState->isStarting()) setStartState(newState);
 
         std::map<char,std::vector<std::string>> theTransitions;
 
-        // Epsilon
-        /*std::vector<std::string> currentStates; // = closure
-        std::vector<std::string> epsilonStates = theState->nextStates(epsChar);
-
-        while (!epsilonStates.empty()) {
-            currentStates.insert(currentStates.end(),epsilonStates.begin(),epsilonStates.end());
-
-            std::vector<std::string> v1;
-            for (auto state:epsilonStates) {
-                State* epsilonState = getState(state);
-                std::vector<std::string> v2 = epsilonState->nextStates(epsChar);
-                for (auto item:v2) {
-                    if (find(currentStates.begin(),currentStates.end(),item) == currentStates.end()) v1.push_back(item);
-                }
-            }
-            epsilonStates = v1;
-        }
-        if (find(currentStates.begin(),currentStates.end(),theState->getName()) == currentStates.end()) currentStates.push_back(theState->getName());
-
-        std::cout <<"staat: "<<theState->getName() << " : ";
-        */
 
         std::vector<std::string> currentStates = closureMap[x.first]; // = closures van de huidige staat
         newState->setAccepting(false);
@@ -136,51 +114,22 @@ NFA ENFA::toNFA() {
         for (auto c:theAlphabet) {
             // Input
 
-            //in dit deeltje voeg ik de volgende states van een closure staat toe aan trans
+            //in dit deeltje voeg ik de volgende staten van een closure staat toe aan trans
             std::vector<std::string> trans;
             for (const auto& state:currentStates) {
                 std::vector<std::string> v2 = getState(state)->nextStates(c);
                 trans.insert(trans.end(),v2.begin(),v2.end());
             }
 
-            /*std::vector<std::string> trans;
-            for (const auto& state: v9) {
-                if(theState->getName() == "2" and c == 'k') {
-
-
-                    //std::cout << theState->getName() << " " << c << " " << state << std::endl;
-                }
-                //std::vector<std::string> staten = getState(state)->nextStates(c);
-                trans.push_back(state);
-
-                //if(!staten.empty()){
-                    //trans.insert(trans.end(),staten.begin(), staten.end() );
-                    //std::cout << theState->getName() << " "<< c << " " << staten[0] << std::endl;
-                //}
-            }*/
-
-            // de eigen next states toevoegen aan trans
-            for(auto r : theState->nextStates(c)){
-                trans.push_back(r);
-                if(theState->getName() == "1" and c == 'j' and r == "3"){
-                    std::cout << 1;
-                }
-                //std::cout << theState->getName() << " "<<c<<" : " << r<<std::endl;
-            }
-
-            //std::cout << theState->getName() << " "<< c << " :  ";
-            for(auto t: trans){ // CL(0)=5 CL(1) = 6, trans = {0,1}, hierna; trans = {0,1,5,6}
-                if(theState->getName() == "1" and c == 'j' and t == "3"){
-                    std::cout << 2;
-                }
-                //std::cout << t << " ";
-                for(auto e: closureMap[t]){
-                    //std::cout << e << " ";
-                }
+            for(const auto& t: trans){ // CL(0)=5 CL(1) = 6, trans = {0,1}, hierna; trans = {0,1,5,6}
                 trans.insert(trans.end(), closureMap[t].begin(), closureMap[t].end());
             }
-            //std::cout << std::endl;
 
+            // de eigen next states
+            for(const auto& p : theState->nextStates(c)){
+                trans.insert(trans.end(), closureMap[p].begin(), closureMap[p].end());
+
+            }
 
             trans = getUniqueStates(trans);
             theTransitions[c] = trans;
