@@ -4,38 +4,36 @@ using namespace std;
 // Main loop
 
 void Autocorrect::run() {
-    std::vector<RE> listRegex;
-    std::vector<std::string> inputStrings;
+    std::vector<std::string> words;
     std::string input;
-    //char eps;
-
-    bool running = true;
 
     cout << "De woorden worden nu ingelezen. U kunt het programma stoppen door 'stop' in te geven." << endl;
-    while(running) {
+    while(true) {
         cout << "Geef een woord in: ";
         cin >> input;
         if(input == "stop"){
-            running = false;
             break;
         }
-
-        correct(input);
-    }    
-
-    cout << "Alle woorden zijn ingelezen."<<endl;
-
+        words.push_back(input);
+    }
     cout << "Geef het epsilon symbool in: ";
     cin >> epsChar;
 
-    for (auto i:inputStrings) {
-        RE theRE(i, epsChar);
-        listRegex.push_back(theRE);
+    cout << "Alle woorden zijn nu ingelezen."<<endl;
+
+    if((int) words.size() > 0) {
+        std::string REString = words[0];
+        for (int i = 1; i < (int) words.size(); i++) {
+            REString += '+';
+            REString += words[i];
+        }
+        std::cout << REString << std::endl;
+
+        RE theRE(REString, epsChar);
+        mainDFA = theRE.toDFA();
+    } else {
+        std::cerr << "The wordlist is empty.\n";
     }
-
-
-    // hier worden de regexen samengevoegd
-    // ...
 }
 
 void Autocorrect::readFile(const std::string &fin) {
