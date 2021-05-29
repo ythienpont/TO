@@ -90,7 +90,7 @@ NFA ENFA::toNFA() {
     std::cout << std::endl;*/
 
 
-    for (auto x:theStates) {
+    for (const auto& x:theStates) {
         State* theState = x.second;
         State* newState = new State(theState->getName());
         //newState->setAccepting(theState->isAccepting());
@@ -124,7 +124,7 @@ NFA ENFA::toNFA() {
 
         std::vector<std::string> currentStates = closureMap[x.first]; // = closures van de huidige staat
         newState->setAccepting(false);
-        for(auto z : currentStates){
+        for(const auto& z : currentStates){
            if(getState(z)->isAccepting()){
                newState->setAccepting(true);
            }
@@ -160,14 +160,23 @@ NFA ENFA::toNFA() {
             }*/
 
             // de eigen next states toevoegen aan trans
-            for(const auto& r : theState->nextStates(c)){
+            for(auto r : theState->nextStates(c)){
                 trans.push_back(r);
-                //std::cout << theState->getName() << " " << r<<std::endl;
+                if(theState->getName() == "1" and c == 'j' and r == "3"){
+                    std::cout << 1;
+                }
+                //std::cout << theState->getName() << " "<<c<<" : " << r<<std::endl;
             }
 
             //std::cout << theState->getName() << " "<< c << " :  ";
             for(auto t: trans){ // CL(0)=5 CL(1) = 6, trans = {0,1}, hierna; trans = {0,1,5,6}
+                if(theState->getName() == "1" and c == 'j' and t == "3"){
+                    std::cout << 2;
+                }
                 //std::cout << t << " ";
+                for(auto e: closureMap[t]){
+                    //std::cout << e << " ";
+                }
                 trans.insert(trans.end(), closureMap[t].begin(), closureMap[t].end());
             }
             //std::cout << std::endl;
