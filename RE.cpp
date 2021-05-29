@@ -18,8 +18,13 @@ ENFA RE::toENFA() {
     newENFA.setType("ENFA");
     newENFA.setEpsilon(epsilon);
     if(regex.at(0) == '(' && regex.at(regex.size() - 1) == ')'){
-        regex.erase(regex.begin());
-        regex.erase(regex.end());
+        string r;
+        for(auto reg = 0; reg != regex.size(); reg++){
+            if(reg != 0 && reg != regex.size()-1){
+                r.push_back(regex[reg]);
+            }
+        }
+        regex = r;
     }
     for(auto reg = 0; reg != regex.size(); reg++){
         if(isalpha(regex[reg]) || regex[reg] == epsilon){
@@ -28,6 +33,9 @@ ENFA RE::toENFA() {
             if(isalpha(regex[reg]) && regex[reg] != epsilon){
                 vector<char> alp = {regex[reg]};
                 enfa.setAlphabet(alp);
+            }
+            if(isalpha(regex[reg-1]) || regex[reg-1] == epsilon){
+                operatoren.push_back('.');
             }
             enfa.setEpsilon(epsilon);
             string s = to_string(states);
@@ -74,6 +82,8 @@ ENFA RE::toENFA() {
                 if(symb[it] == '+'){
                     if(symb[it+1] == '('){
                         operatoren.push_back('+');
+                    }else if(symb[it-1] == '.' || symb[it+1] == '.'){
+                        operatoren.push_back('+');
                     }else{
                         if(ENFA.size() == 0){
                             ENFA.push_back(aut[autom]);
@@ -96,6 +106,9 @@ ENFA RE::toENFA() {
                     }
                 }else if(symb[it] == '.'){
                     if(symb[it-1] == ')'){
+                        automaat.back() = concatenatie(automaat.back(), aut[autom]);
+                        ++autom;
+                    }else if(symb[it-1] == '.'){
                         automaat.back() = concatenatie(automaat.back(), aut[autom]);
                         ++autom;
                     }else{

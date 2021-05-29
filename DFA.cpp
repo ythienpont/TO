@@ -380,7 +380,7 @@ bool DFA::operator==(DFA dfa2) {
 }
 
 
- vector<string> DFA::findWords(const std::string &theString){
+vector<string> DFA::findWords(const std::string &theString){
      std::vector<char> alphabet = getAlphabet();
      State* state = pad(theString);
      vector<string> words;
@@ -402,9 +402,9 @@ bool DFA::operator==(DFA dfa2) {
          }
      }
      return words;
- }
+}
 
- vector<string> DFA::autocorrect1(std::string theString) {
+vector<string> DFA::autocorrect1(std::string theString) {
      DFA curDFA = minimize();
 
      std::vector<char> alphabet = getAlphabet();
@@ -435,7 +435,7 @@ bool DFA::operator==(DFA dfa2) {
      }
 
      return {""};
- }
+}
 
 State* DFA::pad(const std::string &theString) {
     State *currentState = getStartState();
@@ -454,12 +454,11 @@ State* DFA::pad(const std::string &theString) {
     return currentState;
 }
 
- std::string DFA::randomWord(){
+std::string DFA::randomWord(){
     string word;
     DFA curDFA = minimize();
     int randomBool = rand()%2; // deze waarde is 0 of 1
-
     //...
-
+   
     return word;
- }
+}
