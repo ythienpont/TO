@@ -21,7 +21,7 @@ void Autocorrect::run() {
 
     cout << "Alle woorden zijn nu ingelezen."<<endl;
 
-    if((int) words.size() > 0) {
+    if(words.size() > 0) {
         std::string REString = words[0];
         for (int i = 1; i < (int) words.size(); i++) {
             REString += '+';
@@ -42,7 +42,7 @@ void Autocorrect::readFile(const std::string &fin) {
     input >> j;
 
     std::string epsString = j["epsilon"];
-    char epsChar = epsString.at(0);
+    epsChar = epsString.at(0);
 
     std::vector<std::string> words;
 
@@ -51,7 +51,7 @@ void Autocorrect::readFile(const std::string &fin) {
         words.push_back(word);
     }
 
-    if((int) words.size() > 0) {
+    if(words.size() > 0) {
         std::string REString = words[0];
         for (int i = 1; i < (int) words.size(); i++) {
             REString += '+';
@@ -81,7 +81,6 @@ void Autocorrect::correct(const string& theString)  {
         cin >> answer;
         
         if (answer == "yes" or answer == "Yes" or answer == "y" or answer == " yes" or answer == "yes ") {
-            //Do something
             RE newRE(theString, epsChar);
             DFA newDFA = newRE.toDFA();
 
