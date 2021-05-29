@@ -28,9 +28,9 @@ int main() {
    //NFA nfa("nfaFile1.json");
    //cout << "nfa accepts: " << nfa.accepts("c");
 
-   //Autocorrect a;
+   Autocorrect a;
 
-   //a.run();
+   a.run();
 
    return 0;
 }
