@@ -5,17 +5,18 @@
 #define RE_H
 #include <string>
 #include "ENFA.h"
-using namespace std;
+
 class RE{
 public:
-    string regex;
+    std::string regex;
     char epsilon;
     int states;
-    RE(const string &reg, const char eps);
+    RE(const std::string &reg, const char eps);
     ~RE();
     ENFA toENFA();
+    DFA toDFA();
     ENFA ster(ENFA enfa);
     ENFA concatenatie(ENFA enfa1, ENFA enfa2);
-    ENFA plus(vector<ENFA> enfa);
+    ENFA plus(std::vector<ENFA> enfa);
 };
 #endif //RE_H

@@ -14,9 +14,7 @@ int main() {
     //cout << boolalpha << (mindfa == dfa2) << endl;    // zijn ze equivalent? Zou hier zeker moeten. Dit wordt getest in de volgende vraag, maar hiermee kan je al eens proberen
 
     RE re("(m+y)*+(e+y+m+i)s",'e');
-    RE re1("talen+automaten+DFA+NFA+muziek",'%');
     ENFA enfa = re.toENFA();
-    ENFA enfa1 = re1.toENFA();
     enfa.print();
     /*//geeft true
     cout << boolalpha << enfa.accepts("ys") << endl;
@@ -32,7 +30,9 @@ int main() {
 
    //Autocorrect a;
 
-   //a.run();
+   a.readFile("wordlist.json");
+
+   a.run();
 
    return 0;
 }

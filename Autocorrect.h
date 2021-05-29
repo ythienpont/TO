@@ -4,14 +4,14 @@
 #include "RE.h"
 
 class Autocorrect {
-    DFA *mainDFA;
+    DFA mainDFA;
+    char epsChar;
 public:
-    Autocorrect();
+    Autocorrect() : mainDFA("") {  };
     void run();
+    void readFile(const std::string &fin);
 
-    void inlezen();
-    void autocorrect1(const std::string &string);
-    void autocorrect2(const std::string &string);
+    void correct(const std::string &string);
     void generateWord();
 };
 #endif //AUTOCORRECT_AUTOCORRECT_H
