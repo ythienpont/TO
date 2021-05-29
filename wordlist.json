@@ -1,0 +1,10 @@
+{
+    "epsilon": "3",
+    "wordlist": [
+        "talen",
+        "automaten",
+        "DFA",
+        "NFA",
+        "muziek"
+    ]
+}

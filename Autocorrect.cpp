@@ -7,7 +7,7 @@ void Autocorrect::run() {
     std::vector<RE> listRegex;
     std::vector<std::string> inputStrings;
     std::string input;
-    char eps;
+    //char eps;
 
     bool running = true;
 
@@ -19,15 +19,17 @@ void Autocorrect::run() {
             running = false;
             break;
         }
+
+        correct(input);
     }    
 
     cout << "Alle woorden zijn ingelezen."<<endl;
 
     cout << "Geef het epsilon symbool in: ";
-    cin >> eps;
+    cin >> epsChar;
 
     for (auto i:inputStrings) {
-        RE theRE(i, eps);
+        RE theRE(i, epsChar);
         listRegex.push_back(theRE);
     }
 
@@ -57,15 +59,16 @@ void Autocorrect::readFile(const std::string &fin) {
             REString += '+';
             REString += words[i];
         }
-        
-        RE theRE("REString", epsChar);
+        std::cout << REString << std::endl;
+
+        RE theRE(REString, epsChar);
         mainDFA = theRE.toDFA();
     } else {
-        printf("The wordlist is empty\n");
+        std::cerr << "The wordlist is empty\n";
     }
 }
 
-void Autocorrect::autocorrect1(const string& theString)  {
+void Autocorrect::correct(const string& theString)  {
     vector<string> correctedWords = mainDFA.autocorrect1(theString);
     if(correctedWords[0] == theString) cout << "De string '" << theString<<"' wordt aanvaard!"<<endl;
     else {
@@ -74,12 +77,21 @@ void Autocorrect::autocorrect1(const string& theString)  {
         for (const auto &a: correctedWords) {
             cout << '-' << a << "- ";
         }
+
+        std::cout << "Do you want to add this word to the list? (yes/no): ";
+        std::string answer;
+        cin >> answer;
+        
+        if (answer == "yes" or answer == "Yes" or answer == "y") {
+            //Do something
+            RE newRE(theString, epsChar);
+            DFA newDFA = newRE.toDFA();
+
+            DFA newProduct(mainDFA,newDFA, true);
+            mainDFA = newProduct;
+        }
         cout << endl;
     }
-}
-
-void Autocorrect::autocorrect2(const string& theString) {
-
 }
 
 void Autocorrect::generateWord() {

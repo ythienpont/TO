@@ -21,7 +21,7 @@ ENFA RE::toENFA() {
         regex.erase(regex.begin());
         regex.erase(regex.end());
     }
-    for(auto reg = 0; reg != regex.size(); reg++){
+    for(auto reg = 0; reg != (int) regex.size(); reg++){
         if(isalpha(regex[reg]) || regex[reg] == epsilon){
             ENFA enfa("");
             enfa.setType("ENFA");
@@ -53,7 +53,7 @@ ENFA RE::toENFA() {
         }else if(regex[reg] == '.'){
             operatoren.push_back(regex[reg]);
         }else{
-            if(reg != regex.size() -1 && isalpha(regex.at(reg+1))){
+            if(reg != (int) regex.size() -1 && isalpha(regex.at(reg+1))){
                 operatoren.push_back(regex[reg]);
                 operatoren.push_back('.');
             }else{
@@ -69,8 +69,8 @@ ENFA RE::toENFA() {
         vector<char>symb = operatoren;
         operatoren = {};
         vector<ENFA> ENFA;
-        while(autom < aut.size()){
-            for(auto it = 0; it != symb.size(); it++){
+        while(autom < (int) aut.size()){
+            for(auto it = 0; it != (int) symb.size(); it++){
                 if(symb[it] == '+'){
                     if(symb[it+1] == '('){
                         operatoren.push_back('+');
@@ -139,7 +139,7 @@ ENFA RE::plus(vector<ENFA> enfa1) {
     enfa.setType("ENFA");
     enfa.setEpsilon(epsilon);
     vector<char> alphabet = enfa.getAlphabet();
-    for(auto it = 0; it != enfa1.size(); it++){
+    for(auto it = 0; it != (int) enfa1.size(); it++){
         for(auto& i:enfa1[it].getAlphabet()){
             if(count(alphabet.begin(),alphabet.end(), i) == 0){
                 alphabet.push_back(i);
@@ -148,13 +148,13 @@ ENFA RE::plus(vector<ENFA> enfa1) {
     }
     enfa.setAlphabet(alphabet);
     vector<string> transition;
-    for(auto it = 0; it != enfa1.size(); it++){
+    for(auto it = 0; it != (int) enfa1.size(); it++){
         transition.push_back(enfa1[it].getStartState()->getName());
         enfa1[it].getStartState()->setStarting(false);
         enfa.setState(enfa1[it].getStartState()->getName(),enfa1[it].getStartState());
     }
     state->addTransitions(epsilon, transition);
-    for(auto it = 0; it != enfa1.size(); it++){
+    for(auto it = 0; it != (int) enfa1.size(); it++){
         for(auto& i:enfa1[it].getStates()){
             if(i.second->isAccepting()){
                 i.second->addTransition(epsilon,z);
@@ -216,4 +216,8 @@ ENFA RE::ster(ENFA enfa) {
     state2->setAccepting(true);
     enfa1.setState(z,state2);
     return enfa1;
+}
+
+DFA RE::toDFA() {
+    return toENFA().toDFA();
 }
