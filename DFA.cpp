@@ -455,10 +455,28 @@ State* DFA::pad(const std::string &theString) {
 }
 
 std::string DFA::randomWord(){
-    string word;
+    std::string word;
     DFA curDFA = minimize();
-    int randomBool = rand()%2; // deze waarde is 0 of 1
-    //...
+
+    bool wordFound = false;
+
+    State* currState = getStartState();
+    while (!wordFound) {
+        int randInt = rand()%getAlphabet().size();
+        char randomChar = getAlphabet()[randInt];
+
+        State* nextState = getState(currState->nextStates(randomChar)[0]);
+
+        while (nextState->isDead()) {
+            randInt = (randInt+1)%getAlphabet().size();
+            randomChar = getAlphabet()[randInt];
+
+            nextState = getState(currState->nextStates(randomChar)[0]);
+        }
+
+        word += randomChar;
+        if (nextState->isAccepting()) wordFound = true;
+    }
    
     return word;
 }
