@@ -82,7 +82,7 @@ void Autocorrect::correct(const string& theString)  {
         std::string answer;
         cin >> answer;
         
-        if (answer == "yes" or answer == "Yes" or answer == "y") {
+        if (answer == "yes" or answer == "Yes" or answer == "y" or answer == " yes" or answer == "yes ") {
             //Do something
             RE newRE(theString, epsChar);
             DFA newDFA = newRE.toDFA();
