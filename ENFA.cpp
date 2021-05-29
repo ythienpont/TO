@@ -101,7 +101,7 @@ NFA ENFA::toNFA() {
         std::map<char,std::vector<std::string>> theTransitions;
 
         // Epsilon
-        std::vector<std::string> currentStates; // = closure
+        /*std::vector<std::string> currentStates; // = closure
         std::vector<std::string> epsilonStates = theState->nextStates(epsChar);
 
         while (!epsilonStates.empty()) {
@@ -119,7 +119,10 @@ NFA ENFA::toNFA() {
         }
         if (find(currentStates.begin(),currentStates.end(),theState->getName()) == currentStates.end()) currentStates.push_back(theState->getName());
 
-        //std::cout <<"staat: "<<theState->getName() << " : ";
+        std::cout <<"staat: "<<theState->getName() << " : ";
+        */
+
+        std::vector<std::string> currentStates = closureMap[x.first]; // = closures van de huidige staat
         newState->setAccepting(false);
         for(auto z : currentStates){
            if(getState(z)->isAccepting()){
@@ -133,18 +136,14 @@ NFA ENFA::toNFA() {
         for (auto c:theAlphabet) {
             // Input
 
-            std::vector<std::string> v9;
-            for (auto state:currentStates) {
+            //in dit deeltje voeg ik de volgende states van een closure staat toe aan trans
+            std::vector<std::string> trans;
+            for (const auto& state:currentStates) {
                 std::vector<std::string> v2 = getState(state)->nextStates(c);
-                v9.insert(v9.end(),v2.begin(),v2.end());
+                trans.insert(trans.end(),v2.begin(),v2.end());
             }
 
-            //currentStates = v1;
-
-            // Epsilon
-            //v1.clear();
-
-            std::vector<std::string> trans;
+            /*std::vector<std::string> trans;
             for (const auto& state: v9) {
                 if(theState->getName() == "2" and c == 'k') {
 
@@ -158,16 +157,21 @@ NFA ENFA::toNFA() {
                     //trans.insert(trans.end(),staten.begin(), staten.end() );
                     //std::cout << theState->getName() << " "<< c << " " << staten[0] << std::endl;
                 //}
-            }
+            }*/
 
+            // de eigen next states toevoegen aan trans
             for(const auto& r : theState->nextStates(c)){
                 trans.push_back(r);
                 //std::cout << theState->getName() << " " << r<<std::endl;
             }
 
+            //std::cout << theState->getName() << " "<< c << " :  ";
             for(auto t: trans){ // CL(0)=5 CL(1) = 6, trans = {0,1}, hierna; trans = {0,1,5,6}
-
+                //std::cout << t << " ";
+                trans.insert(trans.end(), closureMap[t].begin(), closureMap[t].end());
             }
+            //std::cout << std::endl;
+
 
             trans = getUniqueStates(trans);
             theTransitions[c] = trans;
@@ -182,7 +186,7 @@ NFA ENFA::toNFA() {
 NFA ENFA::toNFA() {
     std::map<std::string,State*> theStates = getStates();
     std::vector<char> theAlphabet = getAlphabet();
-    
+
     char epsChar = getEpsilon();
 
     NFA newNFA("");
@@ -273,7 +277,7 @@ NFA ENFA::toNFA() {
         newState->setTransitions(theTransitions);
         newNFA.setState(newState->getName(),newState);
     }
-    
+
     return newNFA;
 }*/
 DFA ENFA::toDFA() {
