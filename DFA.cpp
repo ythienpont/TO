@@ -405,6 +405,7 @@ vector<string> DFA::findWords(const std::string &theString){
 }
 
 vector<string> DFA::autocorrect1(std::string theString) {
+    print();
      DFA curDFA = minimize();
 
      std::vector<char> alphabet = getAlphabet();

@@ -9,9 +9,10 @@ class Autocorrect {
 public:
     Autocorrect() : mainDFA("") {  };
     void run();
+    void generateWordlist();
     void readFile(const std::string &fin);
 
     void correct(const std::string &string);
-    void generateWord();
+    std::string generateWord();
 };
 #endif //AUTOCORRECT_AUTOCORRECT_H

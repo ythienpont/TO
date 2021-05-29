@@ -15,7 +15,7 @@ int main() {
 
     RE re("(m+y)*+(e+y+m+i)s",'e');
     ENFA enfa = re.toENFA();
-    enfa.print();
+    //enfa.print();
     /*//geeft true
     cout << boolalpha << enfa.accepts("ys") << endl;
     cout << boolalpha << enfa.accepts("mmyyymmmym") << endl;
@@ -28,7 +28,7 @@ int main() {
    //NFA nfa("nfaFile1.json");
    //cout << "nfa accepts: " << nfa.accepts("c");
 
-   //Autocorrect a;
+   Autocorrect a;
 
    a.readFile("wordlist.json");
 
