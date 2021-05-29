@@ -11,6 +11,13 @@ NFA ENFA::toNFA() {
     newNFA.setAlphabet(theAlphabet);
     newNFA.setType("NFA");
 
+    State* deadState = new State("DEAD");
+    newNFA.setState("DEAD", deadState);
+
+    for (auto c:theAlphabet) {
+        deadState->setTransition(c, "DEAD");
+    }
+
     for (auto x:theStates) {
         State* theState = x.second;
         State* newState = new State(theState->getName());
@@ -77,13 +84,17 @@ NFA ENFA::toNFA() {
 
             currentStates = getUniqueStates(currentStates);
 
+            if (currentStates.empty()) {
+                currentStates = {"DEAD"};
+            }
+
             theTransitions[c] = currentStates;
         }
 
         newState->setTransitions(theTransitions);
         newNFA.setState(newState->getName(),newState);
     }
-
+    
     return newNFA;
 }
 DFA ENFA::toDFA() {

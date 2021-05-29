@@ -4,7 +4,7 @@ using namespace std;
 // Main loop
 
 void Autocorrect::run() {
-    generateWordlist();
+    //generateWordlist();
 
     bool running = true;
     while (running) {

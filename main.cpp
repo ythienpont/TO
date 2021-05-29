@@ -30,9 +30,13 @@ int main() {
 
    Autocorrect a;
 
-   a.readFile("wordlist.json");
+   a.readFile("words.json");
 
-   a.run();
+   a.mainDFA.print();
+
+   a.mainDFA.minimize();
+
+   //a.run();
 
    return 0;
 }

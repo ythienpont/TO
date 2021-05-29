@@ -4,9 +4,9 @@
 #include "RE.h"
 
 class Autocorrect {
-    DFA mainDFA;
     char epsChar;
 public:
+    DFA mainDFA;
     Autocorrect() : mainDFA("") {  };
     void run();
     void generateWordlist();
