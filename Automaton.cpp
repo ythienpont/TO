@@ -319,8 +319,17 @@ json Automaton::createJson() {
 
                 std::string s(1, input);
                 transition["input"] = s;
-                j["transitions"].push_back(transition);
+                if (transition["to"] != "{}")j["transitions"].push_back(transition);
 
+            }
+
+            if (type == "ENFA") {
+                json t;
+                t["from"] = it->first;
+                t["to"] = multipleStates(theState->nextStates(eps));
+                std::string s(1, eps);
+                t["input"] = s;
+                if (t["to"] != "{}")j["transitions"].push_back(t);
             }
         }
     }
