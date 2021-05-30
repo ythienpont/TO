@@ -26,7 +26,7 @@ ENFA RE::toENFA() {
         }
         regex = r;
     }
-    bool flag = false;
+    //bool flag = false;
 
     for(auto reg = 0; reg != (int) regex.size(); reg++){
         if(isalpha(regex[reg]) || regex[reg] == epsilon){
@@ -43,14 +43,14 @@ ENFA RE::toENFA() {
             string s = to_string(states);
             ++states;
             State* state = new State(s);
-            if(!flag) {
+            //if(!flag) {
                 enfa.setStartState(state);
                 state->setStarting(true);
-                flag = true;
-            }
-            else {
-                state->setStarting(false);
-                }
+                //flag = true;
+            //}
+           // else {
+            //    state->setStarting(false);
+           //     }
             state->setAccepting(false);
             enfa.setState(s,state);
             string z = to_string(states);
@@ -210,6 +210,9 @@ ENFA RE::concatenatie(ENFA enfa1, ENFA enfa2) {
     enfa.setAlphabet(alf);
     enfa2.getStartState()->setAccepting(false);
     for(auto it: enfa2.getStates()){
+        if(it.second->isStarting()){
+            it.second->setStarting(false);
+        }
         enfa.setState(it.second->getName(),it.second);
     }
     return enfa;
@@ -250,6 +253,6 @@ ENFA RE::ster(ENFA enfa) {
 }
 
 DFA RE::toDFA() {
-    //toENFA().print();
+    //toENFA().toNFA().print();
     return toENFA().toDFA();
 }
