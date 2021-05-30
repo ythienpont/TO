@@ -26,6 +26,8 @@ ENFA RE::toENFA() {
         }
         regex = r;
     }
+    bool flag = false;
+
     for(auto reg = 0; reg != (int) regex.size(); reg++){
         if(isalpha(regex[reg]) || regex[reg] == epsilon){
             ENFA enfa("");
@@ -41,9 +43,15 @@ ENFA RE::toENFA() {
             string s = to_string(states);
             ++states;
             State* state = new State(s);
-            state->setStarting(true);
+            if(!flag) {
+                enfa.setStartState(state);
+                state->setStarting(true);
+                flag = true;
+            }
+            else {
+                state->setStarting(false);
+                }
             state->setAccepting(false);
-            enfa.setStartState(state);
             enfa.setState(s,state);
             string z = to_string(states);
             ++states;
@@ -242,5 +250,6 @@ ENFA RE::ster(ENFA enfa) {
 }
 
 DFA RE::toDFA() {
+    //toENFA().print();
     return toENFA().toDFA();
 }
