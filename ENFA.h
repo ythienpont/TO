@@ -1,3 +1,6 @@
+
+#ifndef ENFA_H
+#define ENFA_H
 #include "NFA.h"
 #include "DFA.h"
 
@@ -23,3 +26,4 @@ public:
 
 
 };
+#endif //ENFA_H

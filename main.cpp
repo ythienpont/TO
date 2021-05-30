@@ -15,6 +15,11 @@ int main() {
 
     RE re("(m+y)*+(e+y+m+i)s",'e');
     ENFA enfa = re.toENFA();
+    RE re1("autom(a+en)",'z');
+    ENFA enfa1 = re1.toENFA();
+    RE re2("a*h",'e');
+    ENFA enfa2 = re2.toENFA();
+    enfa2.print();
     //enfa.print();
     /*//geeft true
     cout << boolalpha << enfa.accepts("ys") << endl;

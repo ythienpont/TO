@@ -34,7 +34,7 @@ ENFA RE::toENFA() {
                 vector<char> alp = {regex[reg]};
                 enfa.setAlphabet(alp);
             }
-            if(isalpha(regex[reg-1]) || regex[reg-1] == epsilon){
+            if(isalpha(regex[reg-1]) || regex[reg-1] == epsilon || regex[reg-1] == '*'){
                 operatoren.push_back('.');
             }
             enfa.setEpsilon(epsilon);
@@ -54,6 +54,9 @@ ENFA RE::toENFA() {
             enfa.setState(z,state2);
             automaat.push_back(enfa);
         }else if(regex[reg] == '(') {
+            if(isalpha(regex[reg-1])){
+                operatoren.push_back('.');
+            }
             operatoren.push_back(regex[reg]);
         }else if(regex[reg] == '+'){
             operatoren.push_back(regex[reg]);
@@ -109,7 +112,7 @@ ENFA RE::toENFA() {
                     if(symb[it-1] == ')'){
                         automaat.back() = concatenatie(automaat.back(), aut[autom]);
                         ++autom;
-                    }else if(symb[it-1] == '.'){
+                    }else if(symb[it-1] == '.' || symb[it-1] == '*'){
                         automaat.back() = concatenatie(automaat.back(), aut[autom]);
                         ++autom;
                     }else{
