@@ -19,8 +19,8 @@ ENFA RE::toENFA() {
     newENFA.setEpsilon(epsilon);
     if(regex.at(0) == '(' && regex.at(regex.size() - 1) == ')'){
         string r;
-        for(auto reg = 0; reg != regex.size(); reg++){
-            if(reg != 0 && reg != regex.size()-1){
+        for(auto reg = 0; reg != (int) regex.size(); reg++){
+            if(reg != 0 && reg != (int) regex.size()-1){
                 r.push_back(regex[reg]);
             }
         }
