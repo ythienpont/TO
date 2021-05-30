@@ -1,0 +1,73 @@
+{
+  "type": "ENFA",
+  "alphabet": [
+    "a",
+    "b",
+	"c"
+  ],
+  "eps": "*",
+  "states": [
+    {
+      "name": "p",
+      "starting": true,
+      "accepting": false
+    },
+    {
+      "name": "q",
+      "starting": false,
+      "accepting": true
+    },
+    {
+      "name": "r",
+      "starting": false,
+      "accepting": true
+    }
+  ],
+  "transitions": [
+    {
+      "from": "p",
+      "to": "p",
+      "input": "a"
+    },
+    {
+      "from": "p",
+      "to": "q",
+      "input": "b"
+    },
+    {
+      "from": "p",
+      "to": "r",
+      "input": "c"
+    },
+    {
+      "from": "q",
+      "to": "p",
+      "input": "*"
+    },
+    {
+      "from": "q",
+      "to": "q",
+      "input": "a"
+    },
+    {
+      "from": "q",
+      "to": "r",
+      "input": "b"
+    },
+	{
+      "from": "r",
+      "to": "q",
+      "input": "*"
+    },
+    {
+      "from": "r",
+      "to": "r",
+      "input": "a"
+    },
+	{
+      "from": "r",
+      "to": "p",
+      "input": "c"
+    }
+  ]
+}
