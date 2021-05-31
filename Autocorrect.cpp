@@ -16,21 +16,21 @@
 
         bool running = true;
         while (running) {
-            std::cout << "Wat wilt u doen?" << std::endl;
-            std::cout << "1. Een woord invoeren 2. Een woord genereren 3. Stoppen (1/2/3): "; 
+            std::cout << "What do you want to do?" << std::endl;
+            std::cout << "1. Input a word 2. Generate a word 3. Stop (1/2/3): ";
             int choice;
             cin >> choice;
 
             switch(choice) {
                 case 1: {
-                            std::cout << "Voer een woord in: ";
+                            std::cout << "Write a word: ";
                             std::string word;
                             cin >> word;
                             correct(word);
                             break;
                         }
                 case 2: {
-                            std::cout << "Het gegenereerde woord is " << generateWord() << std::endl;
+                            std::cout << "The generated word is " << generateWord() << std::endl;
                             break;
                         }
                 default: {
@@ -51,8 +51,8 @@
     void Autocorrect::generateWordlist() {
         int choice;
 
-        std::cout << "Hoe wilt u een woordenlijst samenstellen?" << std::endl;
-        std::cout << "1. Uit een file 2. Zelf woorden invoeren (1/2): ";
+        std::cout << "How do you want to make the list of words?" << std::endl;
+        std::cout << "1. From a file 2. Submit words yourself (1/2): ";
         cin >> choice;
 
         switch(choice) {
@@ -69,19 +69,19 @@
                 std::string input;
 
 
-                cout << "De woorden worden nu ingelezen. U kunt het programma stoppen door 'stop' in te geven." << endl;
+                cout << "The words are being read. You can stop the program by pressing 'stop'." << endl;
                 while(true) {
-                    cout << "Geef een woord in: ";
+                    cout << "Write a word: ";
                     cin >> input;
                     if(input == "stop"){
                     break;
                     }
                     words.push_back(input);
                 }
-                cout << "Geef het epsilon symbool in: ";
+                cout << "Give the epsilon symbol: ";
                 cin >> epsChar;
 
-                cout << "Alle woorden zijn nu ingelezen."<<endl;
+                cout << "All words have been read."<<endl;
 
                 if(words.size() > 0) {
                 std::string REString = words[0];
@@ -130,9 +130,9 @@
 
 void Autocorrect::correct(const string& theString)  {
     vector<string> correctedWords = mainDFA.autocorrect1(theString);
-    if(correctedWords[0] == theString) cout << "De string '" << theString<<"' wordt aanvaard!"<<endl;
+    if(correctedWords[0] == theString) cout << "The string '" << theString<<"' is accepted!"<<endl;
     else {
-        cout << "ingegeven woord: -verbeterd woord 1- -verbeterd woord 2- ..." << endl;
+        cout << "Input word: -corrected word 1- -corrected word 2- ..." << endl;
         cout << theString << ": ";
         for (const auto &a: correctedWords) {
             cout << '-' << a << "- ";
