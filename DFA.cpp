@@ -26,11 +26,16 @@ bool DFA::accepts(const std::string &theString) {
         } else return false;
     }
 
+    if (currentState == nullptr) {
+        std::cerr << "No starting state" << std::endl;
+        return false;
+    }
+
     for (auto c:theString) {
     currentState = getState(currentState->nextStates(c)[0]);
-        if (currentState == nullptr) {
-            std::cerr << "No starting state" << std::endl;
-            return false;
+        if(currentState == nullptr){
+            std::cerr << "Bij dfa.accepts; Deze string brengt je naar een staat die niet bestaat bij de char: "<<c << std::endl;
+
         }
     }
 
@@ -407,8 +412,8 @@ vector<string> DFA::findWords(const std::string &theString){
 }
 
 vector<string> DFA::autocorrect1(std::string theString) {
-    print();
-     DFA curDFA = *this;
+     //DFA curDFA = minimize();
+        DFA curDFA = *this;
 
      std::vector<char> alphabet = getAlphabet();
      bool flag = true;
@@ -429,7 +434,6 @@ vector<string> DFA::autocorrect1(std::string theString) {
              }
              if(!curDFA.pad(theString)->isDead()){
                  vector<string> words = curDFA.findWords(theString);
-
                  correctedWords.insert(correctedWords.end(),words.begin() ,words.end());
                  return correctedWords;
              }
