@@ -1,10 +1,18 @@
 #include "Autocorrect.h"
     using namespace std;
 
+    //https://stackoverflow.com/questions/6486289/how-can-i-clear-console
+    void clear() {
+    // CSI[2J clears screen, CSI[H moves the cursor to top-left corner
+    std::cout << "\x1B[2J\x1B[H";
+    }
+
     // Main loop
 
     void Autocorrect::run() {
-        //generateWordlist();
+        clear();
+        generateWordlist();
+        clear();
 
         bool running = true;
         while (running) {
@@ -29,6 +37,13 @@
                              running = false;
                              break;
                          }
+            }
+            std::cout << "Do you want to continue? 1. Yes 2. No: ";
+            cin >> choice;
+            if (choice == 1) {
+                clear();
+            } else {
+                running = false;
             }
         }
     }
@@ -133,7 +148,6 @@ void Autocorrect::correct(const string& theString)  {
             DFA newDFA = newRE.toDFA();
 
             DFA newProduct(mainDFA,newDFA, false);
-            newProduct.exportJson("export.json");
             mainDFA = newProduct;
         }
         cout << endl;
