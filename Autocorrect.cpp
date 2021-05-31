@@ -104,15 +104,11 @@
             REString += '+';
             REString += words[i];
         }
-        std::cout << REString << std::endl;
 
         RE theRE(REString, epsChar);
         ENFA enfa = theRE.toENFA();
-        enfa.print();
         NFA nfa = enfa.toNFA();
-        nfa.print();
         mainDFA = nfa.toDFA();
-        mainDFA.print();
     } else {
         std::cerr << "The wordlist is empty\n";
     }
@@ -136,7 +132,8 @@ void Autocorrect::correct(const string& theString)  {
             RE newRE(theString, epsChar);
             DFA newDFA = newRE.toDFA();
 
-            DFA newProduct(mainDFA,newDFA, true);
+            DFA newProduct(mainDFA,newDFA, false);
+            newProduct.exportJson("export.json");
             mainDFA = newProduct;
         }
         cout << endl;

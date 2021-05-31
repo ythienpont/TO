@@ -1,6 +1,8 @@
 {
     "epsilon": "%",
     "wordlist": [
-        "DFA"
+        "DFA",
+        "NFA",
+        "Ballon"
     ]
 }

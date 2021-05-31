@@ -36,13 +36,21 @@ int main() {
 
    //NFA nfa("nfaFile1.json");
    //cout << "nfa accepts: " << nfa.accepts("c");
+   //
+   RE re1("DFA", '%');
+   RE re2("NFA", '%');
+
+   DFA dfa1 = re1.toDFA();
+   DFA dfa2 = re2.toDFA();
+   DFA dfa3(dfa1,dfa2,true);
+   //dfa3.print();
 
    Autocorrect a;
 
    a.readFile("words.json");
 
 
-   a.mainDFA.minimize().print();
+   //a.mainDFA.minimize().print();
 
    a.run();
 
