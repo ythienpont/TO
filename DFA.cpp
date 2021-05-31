@@ -153,7 +153,8 @@ std::map<std::string,State*> getCombinedTransitions(std::map<std::string,State*>
                 }
             }
             std::sort(v.begin(),v.end());
-            newState->addTransition(c, getNewStateName(v));
+            std::string sepStates = getNewStateName(v);
+            newState->addTransition(c, getNewStateName(getSeperateStates(sepStates)));
         }
     }
 
@@ -184,7 +185,7 @@ std::map<std::string,State*> getCombinedTransitions(std::map<std::string,State*>
         if (breakOut) continue;
         State* theState = x.second;
         std::string theOldName = theState->getName();
-        theState->setName(getNewStateName({theOldName}));
+        theState->setName(getNewStateName(getSeperateStates(theOldName)));
         allStates[theState->getName()] = theState;
         for (auto c:theAlphabet) {
             std::string nextState = theState->nextStates(c)[0];
@@ -207,7 +208,7 @@ std::map<std::string,State*> getCombinedTransitions(std::map<std::string,State*>
 
     for (auto x:allStates) {
         for (auto c:theAlphabet) {
-            std::string theTransition = getNewStateName(x.second->nextStates(c));
+            std::string theTransition = getNewStateName(getSeperateStates(getNewStateName(x.second->nextStates(c))));
             if (theTransition.at(1) != '{') x.second->setTransition(c,theTransition);
         }
     }
@@ -308,7 +309,8 @@ DFA DFA::minimize() {
             }
             if (newStateFound) {
                 std::sort(v.begin(),v.end());
-                theNewStates.push_back(getNewStateName(v));
+                std::string sepStates = getNewStateName(v);
+                theNewStates.push_back(getNewStateName(getSeperateStates(sepStates)));
             }
         }
 
@@ -406,7 +408,7 @@ vector<string> DFA::findWords(const std::string &theString){
 
 vector<string> DFA::autocorrect1(std::string theString) {
     print();
-     DFA curDFA = minimize();
+     DFA curDFA = *this;
 
      std::vector<char> alphabet = getAlphabet();
      bool flag = true;
@@ -457,7 +459,6 @@ State* DFA::pad(const std::string &theString) {
 
 std::string DFA::randomWord(){
     std::string word;
-    DFA curDFA = minimize();
 
     bool wordFound = false;
 
@@ -473,6 +474,7 @@ std::string DFA::randomWord(){
             randomChar = getAlphabet()[randInt];
 
             nextState = getState(currState->nextStates(randomChar)[0]);
+
         }
 
         word += randomChar;

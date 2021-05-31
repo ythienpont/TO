@@ -12,7 +12,8 @@ int main() {
     //dfa2.printTable();
 
     //cout << boolalpha << (mindfa == dfa2) << endl;    // zijn ze equivalent? Zou hier zeker moeten. Dit wordt getest in de volgende vraag, maar hiermee kan je al eens proberen
-
+    
+    /*
     RE re("(m+y)*+(e+y+m+i)s",'e');
     ENFA enfa = re.toENFA();
     RE re1("autom(a+en)",'z');
@@ -21,6 +22,7 @@ int main() {
     ENFA enfa2 = re2.toENFA();
     enfa2.print();
     //enfa.print();
+    */
     /*//geeft true
     cout << boolalpha << enfa.accepts("ys") << endl;
     cout << boolalpha << enfa.accepts("mmyyymmmym") << endl;
@@ -37,9 +39,8 @@ int main() {
 
    a.readFile("words.json");
 
-   a.mainDFA.print();
 
-   a.mainDFA.minimize();
+   a.mainDFA.minimize().print();
 
    //a.run();
 

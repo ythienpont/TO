@@ -1,89 +1,89 @@
 #include "Autocorrect.h"
-using namespace std;
+    using namespace std;
 
-// Main loop
+    // Main loop
 
-void Autocorrect::run() {
-    //generateWordlist();
+    void Autocorrect::run() {
+        //generateWordlist();
 
-    bool running = true;
-    while (running) {
-        std::cout << "Wat wilt u doen?" << std::endl;
-        std::cout << "1. Een woord invoeren 2. Een woord genereren 3. Stoppen (1/2/3): "; 
+        bool running = true;
+        while (running) {
+            std::cout << "Wat wilt u doen?" << std::endl;
+            std::cout << "1. Een woord invoeren 2. Een woord genereren 3. Stoppen (1/2/3): "; 
+            int choice;
+            cin >> choice;
+
+            switch(choice) {
+                case 1: {
+                            std::cout << "Voer een woord in: ";
+                            std::string word;
+                            cin >> word;
+                            correct(word);
+                            break;
+                        }
+                case 2: {
+                            std::cout << "Het gegenereerde woord is " << generateWord() << std::endl;
+                            break;
+                        }
+                default: {
+                             running = false;
+                             break;
+                         }
+            }
+        }
+    }
+
+    void Autocorrect::generateWordlist() {
         int choice;
+
+        std::cout << "Hoe wilt u een woordenlijst samenstellen?" << std::endl;
+        std::cout << "1. Uit een file 2. Zelf woorden invoeren (1/2): ";
         cin >> choice;
 
         switch(choice) {
             case 1: {
-                        std::cout << "Voer een woord in: ";
-                        std::string word;
-                        cin >> word;
-                        correct(word);
-                        break;
-                    }
-            case 2: {
-                        std::cout << "Het gegenereerde woord is " << generateWord() << std::endl;
-                        break;
-                    }
+                std::string fin;
+                std::cout << "File: ";
+                cin >> fin;
+                readFile(fin);
+                break;
+            }
+               
             default: {
-                         running = false;
-                         break;
-                     }
-        }
-    }
-}
-
-void Autocorrect::generateWordlist() {
-    int choice;
-
-    std::cout << "Hoe wilt u een woordenlijst samenstellen?" << std::endl;
-    std::cout << "1. Uit een file 2. Zelf woorden invoeren (1/2): ";
-    cin >> choice;
-
-    switch(choice) {
-        case 1: {
-            std::string fin;
-            std::cout << "File: ";
-            cin >> fin;
-            readFile(fin);
-            break;
-        }
-           
-        default: {
-            std::vector<std::string> words;
-            std::string input;
+                std::vector<std::string> words;
+                std::string input;
 
 
-            cout << "De woorden worden nu ingelezen. U kunt het programma stoppen door 'stop' in te geven." << endl;
-            while(true) {
-                cout << "Geef een woord in: ";
-                cin >> input;
-                if(input == "stop"){
+                cout << "De woorden worden nu ingelezen. U kunt het programma stoppen door 'stop' in te geven." << endl;
+                while(true) {
+                    cout << "Geef een woord in: ";
+                    cin >> input;
+                    if(input == "stop"){
+                    break;
+                    }
+                    words.push_back(input);
+                }
+                cout << "Geef het epsilon symbool in: ";
+                cin >> epsChar;
+
+                cout << "Alle woorden zijn nu ingelezen."<<endl;
+
+                if(words.size() > 0) {
+                std::string REString = words[0];
+                for (int i = 1; i < (int) words.size(); i++) {
+                    REString += '+';
+                    REString += words[i];
+                }
+
+                RE theRE(REString, epsChar);
+                mainDFA = theRE.toDFA();
                 break;
                 }
-                words.push_back(input);
-            }
-            cout << "Geef het epsilon symbool in: ";
-            cin >> epsChar;
-
-            cout << "Alle woorden zijn nu ingelezen."<<endl;
-
-            if(words.size() > 0) {
-            std::string REString = words[0];
-            for (int i = 1; i < (int) words.size(); i++) {
-                REString += '+';
-                REString += words[i];
-            }
-
-            RE theRE(REString, epsChar);
-            mainDFA = theRE.toDFA();
-            break;
-            }
-         }
+             }
+        }
     }
-}
 
-void Autocorrect::readFile(const std::string &fin) {
+    void Autocorrect::readFile(const std::string &fin) {
     std::ifstream input(fin);
     json j;
     input >> j;
@@ -107,7 +107,12 @@ void Autocorrect::readFile(const std::string &fin) {
         std::cout << REString << std::endl;
 
         RE theRE(REString, epsChar);
-        mainDFA = theRE.toDFA();
+        ENFA enfa = theRE.toENFA();
+        enfa.print();
+        NFA nfa = enfa.toNFA();
+        nfa.print();
+        mainDFA = nfa.toDFA();
+        mainDFA.print();
     } else {
         std::cerr << "The wordlist is empty\n";
     }

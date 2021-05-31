@@ -1,6 +1,8 @@
 #include "Automaton.h"
 
 std::string getNewStateName(std::vector<std::string> transitions) {
+    if (transitions.empty()) return "DEAD";
+
     //https://stackoverflow.com/questions/16476099/remove-duplicate-entries-in-a-c-vector
     // Zo krijg je geen states als {1,1}
     std::sort(transitions.begin(), transitions.end()); 
