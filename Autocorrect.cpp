@@ -117,7 +117,7 @@ void Autocorrect::correct(const string& theString)  {
     vector<string> correctedWords = mainDFA.autocorrect1(theString);
     if(correctedWords[0] == theString) cout << "De string '" << theString<<"' wordt aanvaard!"<<endl;
     else {
-        cout << "origineel woord: -verbeterd woord 1- -verbeterd woord 2- ..." << endl;
+        cout << "ingegeven woord: -verbeterd woord 1- -verbeterd woord 2- ..." << endl;
         cout << theString << ": ";
         for (const auto &a: correctedWords) {
             cout << '-' << a << "- ";
