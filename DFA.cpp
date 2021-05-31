@@ -62,7 +62,7 @@ DFA::DFA(DFA dfa1,DFA dfa2, bool intersection) : Automaton("") {
             if (dfa1State->isStarting() and dfa2State->isStarting()) {
                 newState->setStarting(true);
                 setStartState(newState);
-            }
+            }else newState->setStarting(false);
 
             if (intersection) {
                 if (dfa1State->isAccepting() and dfa2State->isAccepting()) newState->setAccepting(true);
