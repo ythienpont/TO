@@ -464,21 +464,25 @@ std::string DFA::randomWord(){
 
     State* currState = getStartState();
     while (!wordFound) {
-        int randInt = rand()%getAlphabet().size();
+        int randInt = rand()%(getAlphabet().size()-1);
         char randomChar = getAlphabet()[randInt];
 
         State* nextState = getState(currState->nextStates(randomChar)[0]);
 
-        while (nextState->isDead()) {
-            randInt = (randInt+1)%getAlphabet().size();
+        while (nextState->isDead() or nextState->getName() == "DEAD" or nextState->getName() == "{DEAD}") {
+
+            randInt%=getAlphabet().size();
+
             randomChar = getAlphabet()[randInt];
 
             nextState = getState(currState->nextStates(randomChar)[0]);
 
+            randInt++;
         }
 
+        currState = nextState;
         word += randomChar;
-        if (nextState->isAccepting()) wordFound = true;
+        if (currState->isAccepting()) wordFound = true;
     }
    
     return word;

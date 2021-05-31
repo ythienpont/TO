@@ -1,10 +1,12 @@
 #include "NFA.h"
 #include "RE.h"
 #include "Autocorrect.h"
+#include <time.h>
 using namespace std;
 
 
 int main() {
+    srand(time(0));
     //DFA dfa("input-tfa1.json");
     //DFA dfa2("dfatest.json");
 
@@ -42,7 +44,7 @@ int main() {
 
    a.mainDFA.minimize().print();
 
-   //a.run();
+   a.run();
 
    return 0;
 }
