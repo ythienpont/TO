@@ -426,11 +426,15 @@ vector<string> DFA::autocorrect1(std::string theString) {
              return correctedWords;
          }
          else{
+             if(!curDFA.pad(theString)->isDead()){ // Indien je geen strikte autocorrect wil , kan je dit deeltje weghalen
+                 vector<string> words = curDFA.findWords(theString);
+                 correctedWords.insert(correctedWords.end(),words.begin() ,words.end());
+                 return correctedWords;
+             }
              theString = theString.substr(0,theString.length() - 1);
              if (curDFA.accepts(theString)) {
                  correctedWords.push_back(theString);
                  stop = true;
-                 //return correctedWords;
              }
              if(!curDFA.pad(theString)->isDead()){
                  vector<string> words = curDFA.findWords(theString);

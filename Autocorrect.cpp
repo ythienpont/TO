@@ -106,9 +106,8 @@
         }
 
         RE theRE(REString, epsChar);
-        ENFA enfa = theRE.toENFA();
-        NFA nfa = enfa.toNFA();
-        mainDFA = nfa.toDFA();
+        DFA dfa = theRE.toDFA();
+        mainDFA = dfa;
     } else {
         std::cerr << "The wordlist is empty\n";
     }
