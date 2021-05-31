@@ -43,14 +43,8 @@ ENFA RE::toENFA() {
             string s = to_string(states);
             ++states;
             State* state = new State(s);
-            //if(!flag) {
-                enfa.setStartState(state);
-                state->setStarting(true);
-                //flag = true;
-            //}
-           // else {
-            //    state->setStarting(false);
-           //     }
+            enfa.setStartState(state);
+            state->setStarting(true);
             state->setAccepting(false);
             enfa.setState(s,state);
             string z = to_string(states);
