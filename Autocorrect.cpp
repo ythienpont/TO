@@ -1,6 +1,40 @@
 #include "Autocorrect.h"
     using namespace std;
 
+
+void hernaam(DFA& d){
+    map<string,State*> aa = d.getStates();
+    map<string,State*> newMap;
+
+    map<string,string> replace;
+    int m=0;
+    for(auto& k : aa){
+        string str;
+
+        str =  to_string(m);
+
+        replace[k.first] = str;
+        k.second->setName(str);
+        newMap[str] = k.second;
+        m++;
+    }
+
+    for(auto& q : aa){
+
+        map<char, vector<string>> newT;
+        for(const auto& p: q.second->getTransitions()){
+            vector<string> newV;
+            for(const auto& f: p.second){
+                newV.push_back(replace[f]);
+            }
+            newT[p.first] = newV;
+        }
+        q.second->setTransitions(newT);
+    }
+
+    d.setStates(newMap);
+};
+
     //https://stackoverflow.com/questions/6486289/how-can-i-clear-console
     void clear() {
     // CSI[2J clears screen, CSI[H moves the cursor to top-left corner
@@ -122,6 +156,8 @@
 
         RE theRE(REString, epsChar);
         DFA dfa = theRE.toDFA();
+        hernaam(dfa);
+        dfa = dfa.minimize();
         mainDFA = dfa;
     } else {
         std::cerr << "The wordlist is empty\n";

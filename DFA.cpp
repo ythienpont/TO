@@ -213,7 +213,13 @@ std::map<std::string,State*> getCombinedTransitions(std::map<std::string,State*>
 
     for (auto x:allStates) {
         for (auto c:theAlphabet) {
-            std::string theTransition = getNewStateName(getSeperateStates(getNewStateName(x.second->nextStates(c))));
+            //std::string theTransition = getNewStateName(getSeperateStates(getNewStateName(x.second->nextStates(c))));
+            std::string theTransition = getNewStateName((x.second->nextStates(c)));
+            theTransition =  theTransition.substr(1, theTransition.size()-2);
+            if(getSeperateStates(theTransition.substr(1, theTransition.size()-2)).empty()) {
+                theTransition = "DEAD";
+            }
+
             if (theTransition.at(1) != '{') x.second->setTransition(c,theTransition);
         }
     }
