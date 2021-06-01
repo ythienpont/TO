@@ -1,11 +1,11 @@
 #include "NFA.h"
 #include "RE.h"
 #include "Autocorrect.h"
-#include <time.h>
+#include <ctime>
 using namespace std;
 
 int main() {
-    srand(time(0));
+    srand(time(NULL));
 
     Autocorrect a;
     a.run();
