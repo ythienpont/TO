@@ -174,7 +174,7 @@ void Autocorrect::correct(const string& theString)  {
             cout << '-' << a << "- ";
         }
 
-        std::cout << "Do you want to add this word to the list? (yes/no): ";
+        std::cout << std::endl<<"Do you want to add this word to the list? (yes/no): ";
         std::string answer;
         cin >> answer;
         
