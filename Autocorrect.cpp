@@ -75,13 +75,14 @@ void hernaam(DFA& d){
                              //break;
                          }
             }
-            std::cout << std::endl<< "Do you want to continue? 1. Yes 2. No: ";
+            clear();
+            /*std::cout << std::endl<< "Do you want to continue? 1. Yes 2. No: ";
             cin >> choice;
             if (choice == 1) {
                 clear();
             } else {
                 running = false;
-            }
+            }*/
         }
     }
 
@@ -137,6 +138,10 @@ void hernaam(DFA& d){
 
     void Autocorrect::readFile(const std::string &fin) {
     std::ifstream input(fin);
+    if(!input.is_open()){
+        cerr << "The file: "<< fin<< " doesn't exist!"<<endl;
+        return;
+    }
     json j;
     input >> j;
 
