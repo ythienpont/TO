@@ -1,8 +1,10 @@
+import sys
+
 f = open("wordlist.json", "w")
 
 f.write("{\n\t\"epsilon\": \"%\",\n\t\"wordlist\": [\n")
 
-with open('wordlist.txt','r') as file:
+with open(sys.argv[1],'r') as file:
    
     # reading each line    
     for line in file:
