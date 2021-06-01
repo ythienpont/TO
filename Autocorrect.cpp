@@ -44,6 +44,7 @@ void hernaam(DFA& d){
     // Main loop
 
     void Autocorrect::run() {
+        cout << "----------START OF AUTOCORRECT PROJECT----------"<<endl<<endl;
         clear();
         generateWordlist();
         clear();
@@ -68,11 +69,13 @@ void hernaam(DFA& d){
                             break;
                         }
                 default: {
-                             running = false;
-                             break;
+                             cout << endl<<"GOODBYE :)" <<endl;
+                             return;
+                             //running = false;
+                             //break;
                          }
             }
-            std::cout << "Do you want to continue? 1. Yes 2. No: ";
+            std::cout << std::endl<< "Do you want to continue? 1. Yes 2. No: ";
             cin >> choice;
             if (choice == 1) {
                 clear();
@@ -103,7 +106,7 @@ void hernaam(DFA& d){
                 std::string input;
 
 
-                cout << "The words are being read. You can stop the program by pressing 'stop'." << endl;
+                cout << "The words are being read. You can stop the program by entering 'stop'." << endl;
                 while(true) {
                     cout << "Write a word: ";
                     cin >> input;
@@ -174,7 +177,7 @@ void Autocorrect::correct(const string& theString)  {
             cout << '-' << a << "- ";
         }
 
-        std::cout << std::endl<<"Do you want to add this word to the list? (yes/no): ";
+        std::cout <<"Do you want to add this word to the list? (yes/no): ";
         std::string answer;
         cin >> answer;
         
