@@ -75,16 +75,12 @@ void hernaam(DFA& d){
                              //break;
                          }
             }
+            std::cout << std::endl<< "Type anything to continue... ";
+            std::string anything;
+            cin >> anything;
             clear();
-            /*std::cout << std::endl<< "Do you want to continue? 1. Yes 2. No: ";
-            cin >> choice;
-            if (choice == 1) {
-                clear();
-            } else {
-                running = false;
-            }*/
+            }
         }
-    }
 
     void Autocorrect::generateWordlist() {
         int choice;
@@ -164,8 +160,6 @@ void hernaam(DFA& d){
 
         RE theRE(REString, epsChar);
         DFA dfa = theRE.toDFA();
-        hernaam(dfa);
-        dfa = dfa.minimize();
         mainDFA = dfa;
     } else {
         std::cerr << "The wordlist is empty\n";
