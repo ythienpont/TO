@@ -19,9 +19,9 @@ with open(sys.argv[1],'r') as file:
   
             if add == True:
                 # displaying the words
-                f.write("\t\t\"")
-                f.write(word)
-                f.write("\",\n")
+                f.write("\t\t\""+word+"\",\n")
+                #f.write(word)
+                #f.write("\",\n")
 
 f.write("\t\t\"einde\"\n")
 f.write("\t]\n}")
