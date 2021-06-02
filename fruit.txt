@@ -20,8 +20,6 @@ bergpapaja
 bes
 bezie
 blanket
-blauwe bes
-blauwe bosbes
 bloedsinaasappel
 boerenjongen
 boomfruit
@@ -53,7 +51,6 @@ grapefruit
 guave
 guayave
 jam
-java-appel
 juttepeer
 kafferpruim
 kaki
@@ -97,11 +94,8 @@ pompelmoes
 pruim
 pruimedant
 pruimencompote
-quito-tomaat
-reine-claude
 reinette
 renet
-rode bes
 rozenbottel
 sapodilla
 schubappel
@@ -124,7 +118,5 @@ walnoot
 watermeloen
 weichsel
 wijnbes
-witte bes
 zuidvrucht
 zuurzak
-zwarte bes
